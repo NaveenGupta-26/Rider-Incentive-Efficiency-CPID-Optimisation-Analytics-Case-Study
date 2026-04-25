@@ -1,0 +1,747 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CPID Portfolio | Rider Incentive Efficiency Optimization</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=PT+Serif:ital,wght@0,400;0,700;1,400&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #fdfaf3;
+            --surface: #ffffff;
+            --surface-hover: #f5f2eb;
+            --paper: #1c1c1c;
+            --paper-dim: #5c5c5c;
+            --accent: #c0392b;
+            --accent-dim: #e6b0aa;
+            --gold: #8d6e63;
+            --border: rgba(0, 0, 0, 0.08);
+            --rule: rgba(0, 0, 0, 0.05);
+            --blue: #2980b9;
+            --green: #27ae60;
+            --amber: #f39c12;
+            
+            --sans: 'Plus Jakarta Sans', 'Inter', sans-serif;
+            --serif: 'PT Serif', serif;
+            --mono: 'JetBrains Mono', 'Courier New', monospace;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        
+        html { scroll-behavior: smooth; }
+        
+        body {
+            background: var(--bg);
+            color: var(--paper);
+            font-family: var(--sans);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Layout Structure */
+        .main-wrapper {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Sidebar Navigation */
+        aside {
+            width: 300px;
+            background: var(--surface);
+            border-right: 1px solid var(--border);
+            height: 100vh;
+            position: sticky;
+            top: 0;
+            padding: 3rem 2rem;
+            display: flex;
+            flex-direction: column;
+            gap: 2.5rem;
+            flex-shrink: 0;
+        }
+
+        .nav-brand {
+            font-family: var(--serif);
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--gold);
+            line-height: 1.1;
+        }
+
+        .nav-brand span { color: var(--accent); }
+
+        .nav-links {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--paper-dim);
+            font-size: 14px;
+            font-weight: 500;
+            padding: 0.75rem 1rem;
+            border-radius: 6px;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .nav-links a:hover, .nav-links a.active {
+            color: var(--paper);
+            background: var(--surface-hover);
+        }
+
+        .nav-links a.active {
+            border-left: 3px solid var(--accent);
+            border-radius: 0 6px 6px 0;
+            background: linear-gradient(90deg, rgba(212, 77, 77, 0.1) 0%, transparent 100%);
+        }
+
+        .nav-phase-num {
+            font-size: 10px;
+            font-weight: 700;
+            color: var(--accent);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            width: 24px;
+        }
+
+        /* Content Area */
+        main {
+            flex: 1;
+            padding: 0;
+            max-width: 100%;
+        }
+
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 0 10%;
+            border-bottom: 1px solid var(--border);
+            position: relative;
+            background: radial-gradient(circle at 70% 30%, rgba(192, 57, 43, 0.03) 0%, transparent 50%);
+        }
+
+        .hero-eyebrow {
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            color: var(--paper-dim);
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .hero-eyebrow::after {
+            content: '';
+            width: 40px;
+            height: 1px;
+            background: var(--accent);
+        }
+
+        .hero h1 {
+            font-family: var(--serif);
+            font-size: clamp(2.5rem, 8vw, 5rem);
+            line-height: 1.1;
+            max-width: 900px;
+            margin-bottom: 2rem;
+        }
+
+        .hero h1 em {
+            font-style: italic;
+            font-weight: 400;
+            color: var(--gold);
+        }
+
+        .hero-meta {
+            display: flex;
+            gap: 4rem;
+            margin-top: 2rem;
+        }
+
+        .meta-item {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .meta-item strong {
+            font-size: 32px;
+            font-family: var(--serif);
+            color: var(--paper);
+        }
+
+        .meta-item span {
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--paper-dim);
+        }
+
+        /* Section Components */
+        section {
+            padding: 8rem 10%;
+            border-bottom: 1px solid var(--border);
+            scroll-margin-top: 0;
+        }
+
+        .section-header {
+            margin-bottom: 4rem;
+        }
+
+        .section-tag {
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            color: var(--accent);
+            display: block;
+            margin-bottom: 1rem;
+        }
+
+        .section-title {
+            font-family: var(--serif);
+            font-size: 42px;
+            line-height: 1.2;
+            margin-bottom: 1.5rem;
+        }
+
+        .section-desc {
+            font-size: 18px;
+            color: var(--paper-dim);
+            max-width: 700px;
+            line-height: 1.7;
+        }
+
+        /* Grid Layouts */
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: start;
+        }
+
+        .card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            padding: 2.5rem;
+            border-radius: 8px;
+            height: 100%;
+        }
+
+        /* Highlights & Pull Quotes */
+        .highlight-box {
+            border-left: 4px solid var(--accent);
+            background: rgba(212, 77, 77, 0.05);
+            padding: 2rem;
+            margin: 2rem 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .pull-quote {
+            font-family: var(--serif);
+            font-size: 24px;
+            font-style: italic;
+            color: var(--gold);
+            line-height: 1.5;
+            margin: 3rem 0;
+            text-align: center;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* Charts */
+        .viz-gallery {
+            display: flex;
+            flex-direction: column;
+            gap: 6rem;
+        }
+
+        .viz-item {
+            display: grid;
+            grid-template-columns: 1.2fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .viz-img {
+            background: #fff;
+            padding: 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.08);
+            border: 1px solid var(--border);
+            transition: transform 0.3s ease;
+        }
+
+        .viz-img img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .viz-img:hover { transform: translateY(-5px); }
+
+        .viz-text h3 {
+            font-family: var(--serif);
+            font-size: 28px;
+            margin-bottom: 1rem;
+        }
+
+        .key-finding {
+            background: rgba(76, 175, 80, 0.1);
+            border-left: 3px solid var(--green);
+            padding: 1.25rem 1.5rem;
+            font-size: 15px;
+            margin-top: 1.5rem;
+            border-radius: 0 4px 4px 0;
+        }
+
+        /* Code Block */
+        .code-container {
+            margin: 2rem 0;
+            background: #f8f8f8;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            overflow: hidden;
+        }
+
+        .code-header {
+            background: #efefef;
+            padding: 0.75rem 1.5rem;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .code-title {
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--paper-dim);
+        }
+
+        pre {
+            padding: 1.5rem;
+            font-family: var(--mono);
+            font-size: 13px;
+            line-height: 1.7;
+            color: #2c3e50;
+            overflow-x: auto;
+        }
+
+        .kw { color: #2980b9; }
+        .fn { color: #8e44ad; }
+        .str { color: #d35400; }
+        .cm { color: #7f8c8d; }
+
+        /* Tables */
+        .table-wrap {
+            margin: 2rem 0;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 14px;
+        }
+
+        th, td {
+            padding: 1.25rem 1.5rem;
+            text-align: left;
+            border-bottom: 1px solid var(--border);
+        }
+
+        th {
+            background: rgba(255, 255, 255, 0.03);
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--paper-dim);
+        }
+
+        .best { color: var(--green); font-weight: 600; }
+        .worst { color: var(--accent); font-weight: 600; }
+
+        /* Responsive */
+        @media (max-width: 1100px) {
+            aside { width: 80px; padding: 3rem 1rem; }
+            .nav-brand, .nav-links a span:not(.nav-phase-num) { display: none; }
+            .nav-links a { justify-content: center; padding: 1rem; }
+            .nav-phase-num { width: auto; margin: 0; }
+        }
+
+        @media (max-width: 900px) {
+            .main-wrapper { flex-direction: column; }
+            aside {
+                width: 100%;
+                height: auto;
+                position: fixed;
+                bottom: 0;
+                top: auto;
+                border-right: none;
+                border-top: 1px solid var(--border);
+                padding: 1rem;
+                z-index: 100;
+            }
+            .nav-links { flex-direction: row; justify-content: space-around; }
+            .hero, section { padding: 4rem 5%; }
+            .grid-2, .viz-item { grid-template-columns: 1fr; gap: 3rem; }
+            .hero-meta { flex-direction: column; gap: 2rem; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="main-wrapper">
+    <aside>
+        <div class="nav-brand">Naveen<span>.</span>Gupta</div>
+        <ul class="nav-links">
+            <li><a href="#hero" class="active"><span class="nav-phase-num">00</span><span>Overview</span></a></li>
+            <li><a href="#phase1"><span class="nav-phase-num">01</span><span>Problem</span></a></li>
+            <li><a href="#phase2"><span class="nav-phase-num">02</span><span>Metric</span></a></li>
+            <li><a href="#phase3"><span class="nav-phase-num">03</span><span>SQL Analysis</span></a></li>
+            <li><a href="#phase5"><span class="nav-phase-num">04</span><span>Visuals</span></a></li>
+            <li><a href="#phase6"><span class="nav-phase-num">05</span><span>Experiment</span></a></li>
+            <li><a href="#phase7"><span class="nav-phase-num">06</span><span>Strategy</span></a></li>
+        </ul>
+
+        <ul class="nav-links" style="margin-top: 1rem; border-top: 1px solid var(--border); padding-top: 1.5rem;">
+            <li style="font-size: 11px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--paper-dim); margin-bottom: 0.5rem; padding-left: 1rem;">Project Artifacts</li>
+            <li><a href="phase1_problem.html" target="_blank"><span class="nav-phase-num">P1</span><span>Problem Deep-Dive</span></a></li>
+            <li><a href="phase3_sql.html" target="_blank"><span class="nav-phase-num">P3</span><span>SQL Worksheet</span></a></li>
+            <li><a href="phase6_experiment.html" target="_blank"><span class="nav-phase-num">P6</span><span>Experiment Design</span></a></li>
+        </ul>
+
+        <div style="margin-top:auto">
+            <a href="https://github.com/NaveenGupta-26/cpid-rider-incentive-optimization" class="card" style="display: block; text-decoration: none; padding: 1rem; text-align: center; background: var(--accent); color: white; border: none; font-size: 13px; font-weight: 600;">
+                View on GitHub
+            </a>
+        </div>
+    </aside>
+
+    <main>
+        <!-- HERO -->
+        <section id="hero" class="hero">
+            <div class="hero-eyebrow">A Growth Analytics Portfolio Project</div>
+            <h1>Solving the <em>Rider Incentive</em><br>Efficiency Gap</h1>
+            <p class="section-desc">
+                Measuring true ROI in last-mile delivery. Moving from "Total Deliveries" to 
+                <strong>Cost Per Incremental Delivery (CPID)</strong> to surface Rs60 Cr+ in quarterly savings.
+            </p>
+            
+            <div class="hero-meta">
+                <div class="meta-item">
+                    <strong>Rs60.7 Cr</strong>
+                    <span>Quarterly Savings</span>
+                </div>
+                <div class="meta-item">
+                    <strong>+Rs334 /wk</strong>
+                    <span>Rider Earnings Gain</span>
+                </div>
+                <div class="meta-item">
+                    <strong>24.4%</strong>
+                    <span>CPID Efficiency Jump</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- PHASE 1: PROBLEM -->
+        <section id="phase1">
+            <div class="section-header">
+                <span class="section-tag">Phase 01 / The Problem</span>
+                <h2 class="section-title">The Money Nobody Is<br>Counting Correctly.</h2>
+                <p class="section-desc">
+                    Every last-mile platform (Swiggy, Zomato, Blinkit) spends Rs200-500 Cr per quarter on rider incentives. 
+                    Most measure success by total deliveries during a bonus week. This is a <strong>causal fallacy</strong>.
+                </p>
+            </div>
+
+            <div class="grid-2">
+                <div class="card">
+                    <h3 style="margin-bottom:1rem; color:var(--gold)">The "Always-On" Waste</h3>
+                    <p style="color:var(--paper-dim)">
+                        87% of deliveries would have happened anyway. By paying flat bonuses to everyone, 
+                        platforms subsidize existing behavior while overpaying for new supply. 
+                        Riders who are online every peak hour regardless of bonuses represent pure cost leakage.
+                    </p>
+                </div>
+                <div class="card" style="border-color: var(--accent-dim)">
+                    <h3 style="margin-bottom:1rem; color:var(--accent)">0.98× ROI</h3>
+                    <p style="color:var(--paper-dim)">
+                        Our analysis revealed that the industry-standard "Flat Per-Order" bonus has an ROI below 1.0. 
+                        The platform recovers less than Rs1 for every Rs1 spent on these bonuses. 
+                        It is loss-making at the margin.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- PHASE 2: METRIC -->
+        <section id="phase2">
+            <div class="section-header">
+                <span class="section-tag">Phase 02 / Metric Design</span>
+                <h2 class="section-title">The North Star:<br>CPID vs. Baseline.</h2>
+            </div>
+
+            <div class="highlight-box">
+                <h3 style="margin-bottom:0.5rem">CPID = Total Bonus Paid ÷ Incremental Deliveries</h3>
+                <p>Incremental Deliveries = (Deliveries with Bonus) – (Rider's Personal Baseline)</p>
+            </div>
+
+            <div class="grid-2">
+                <div>
+                    <h3 style="margin-bottom:1rem; font-family:var(--serif)">Meet Ramesh — The Case for CPID</h3>
+                    <p style="color:var(--paper-dim); margin-bottom:1rem">
+                        Ramesh normally does 18 deliveries a day. Today, a streak bonus pushes him to 22. 
+                        The old way counts 22 deliveries. <strong>The CPID way counts 4.</strong>
+                    </p>
+                    <p style="color:var(--paper-dim)">
+                        That 5× difference in measurement is where hundreds of crores disappear annually. 
+                        Isolating the <em>marginal</em> delivery is the only way to measure true incentive elasticity.
+                    </p>
+                </div>
+                <div class="card">
+                    <ul style="list-style:none; display:flex; flex-direction:column; gap:1.5rem">
+                        <li>
+                            <strong style="display:block; color:var(--blue)">Baseline</strong>
+                            <span style="font-size:14px; color:var(--paper-dim)">Rider-specific counterfactual based on non-incentive weeks.</span>
+                        </li>
+                        <li>
+                            <strong style="display:block; color:var(--amber)">Supply Funnel</strong>
+                            <span style="font-size:14px; color:var(--paper-dim)">Surge acts at the 'Online' stage; Streak acts at the 'Completion' stage.</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- PHASE 3: SQL ANALYSIS -->
+        <section id="phase3">
+            <div class="section-header">
+                <span class="section-tag">Phase 03 / SQL Analysis</span>
+                <h2 class="section-title">8 Queries to Uncover<br>the Unit Economics.</h2>
+            </div>
+
+            <div class="code-container">
+                <div class="code-header">
+                    <div class="code-title">Query 2: Core CPID by Incentive Type</div>
+                </div>
+                <pre><code><span class="kw">WITH</span> baseline <span class="kw">AS</span> (
+  <span class="kw">SELECT</span> rider_id, <span class="fn">AVG</span>(deliveries_completed) <span class="kw">AS</span> avg_baseline
+  <span class="kw">FROM</span> shifts <span class="kw">WHERE</span> incentive_type = <span class="str">'none'</span>
+  <span class="kw">GROUP BY</span> rider_id
+),
+incentive_weeks <span class="kw">AS</span> (
+  <span class="kw">SELECT</span> s.incentive_type,
+    <span class="fn">SUM</span>(s.deliveries_completed - b.avg_baseline) <span class="kw">AS</span> incr_deliveries,
+    <span class="fn">SUM</span>(s.incentive_pay) <span class="kw">AS</span> total_spend
+  <span class="kw">FROM</span> shifts s <span class="kw">JOIN</span> baseline b <span class="kw">ON</span> b.rider_id = s.rider_id
+  <span class="kw">GROUP BY</span> s.incentive_type
+)
+<span class="kw">SELECT</span> incentive_type, 
+  <span class="fn">ROUND</span>(total_spend / <span class="fn">NULLIF</span>(incr_deliveries, <span class="num">0</span>), <span class="num">1</span>) <span class="kw">AS</span> cpid_rs
+<span class="kw">FROM</span> incentive_weeks;</code></pre>
+            </div>
+
+            <div class="table-wrap">
+                <table>
+                    <thead>
+                        <tr><th>Incentive Type</th><th>Total Deliveries</th><th>CPID (Rs)</th><th>Incentive ROI</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>Surge Top-up</td><td>7,96,638</td><td class="best">57.9</td><td class="best">1.50×</td></tr>
+                        <tr><td>Streak Bonus</td><td>10,51,909</td><td>73.2</td><td>1.17×</td></tr>
+                        <tr><td>Flat Per-Order</td><td>10,14,830</td><td class="worst">92.1</td><td class="worst">0.98×</td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <p style="color:var(--paper-dim); font-size:14px; font-style:italic">
+                *ROI = (Incremental Revenue) / (Incentive Spend). Based on 17% take rate on Rs435 AOV.
+            </p>
+        </section>
+
+        <!-- PHASE 5: VISUALS -->
+        <section id="phase5">
+            <div class="section-header">
+                <span class="section-tag">Phase 04 / Visual Analysis</span>
+                <h2 class="section-title">Quantifying the Gaps.</h2>
+            </div>
+
+            <div class="viz-gallery">
+                <!-- VIZ 1 -->
+                <div class="viz-item">
+                    <div class="viz-img">
+                        <img src="../charts/chart1_cpid_by_type.png" alt="CPID by Type">
+                    </div>
+                    <div class="viz-text">
+                        <h3>Isolating the Efficiency Leader</h3>
+                        <p style="color:var(--paper-dim)">
+                            Surge Top-ups are 37% more efficient than industry-standard Flat bonuses. 
+                            By rewarding 'Online Presence' rather than every individual delivery, 
+                            we filter out the always-on subsidy.
+                        </p>
+                        <div class="key-finding">
+                            Finding: Flat bonuses often cost >Rs90 per incremental delivery, exceeding the Rs74 revenue ceiling.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- VIZ 2 -->
+                <div class="viz-item" style="direction: rtl;">
+                    <div class="viz-img" style="direction: ltr;">
+                        <img src="../charts/chart2_tenure_scatter.png" alt="Tenure vs CPID">
+                    </div>
+                    <div class="viz-text" style="direction: ltr;">
+                        <h3>The 2–6 Month Sweet Spot</h3>
+                        <p style="color:var(--paper-dim)">
+                            Elasticity follows a U-curve. New riders (0-2mo) are still learning; 
+                            veterans (12+mo) have fixed schedules. The 2-6 month cohort represents 
+                            the most elastic supply segment.
+                        </p>
+                        <div class="key-finding">
+                            Strategy: Aggressively target "Mid-Tenure" riders with streak bonuses to maximize volume.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- VIZ 3 -->
+                <div class="viz-item">
+                    <div class="viz-img">
+                        <img src="../charts/chart3_heatmap.png" alt="City Tier Heatmap">
+                    </div>
+                    <div class="viz-text">
+                        <h3>Geography as a Decision Matrix</h3>
+                        <p style="color:var(--paper-dim)">
+                            Tier-1 metros absorb 34% of budget but suffer from extreme supply saturation. 
+                            Conversely, Tier-3 cities respond 2.5× more efficiently to the same spend.
+                        </p>
+                        <div class="key-finding">
+                            Recommendation: Reallocate 15% of Tier-1 discretionary spend to Tier-2/3 "Growth Hubs".
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- PHASE 6: EXPERIMENT -->
+        <section id="phase6">
+            <div class="section-header">
+                <span class="section-tag">Phase 05 / A/B Experiment</span>
+                <h2 class="section-title">Validation via Cluster<br>Randomisation.</h2>
+            </div>
+
+            <div class="grid-2">
+                <div>
+                    <h3 style="margin-bottom:1rem">The SUTVA Challenge</h3>
+                    <p style="color:var(--paper-dim)">
+                        Randomizing by rider in the same city causes spillover (Rider A's bonus takes Rider B's orders). 
+                        We implemented <strong>Cluster Randomisation at the City Level</strong> to isolate treatment effects cleanly.
+                    </p>
+                    <div class="highlight-box">
+                        <h4 style="margin-bottom:0.5rem; color:var(--accent)">The Pure Surge Failure</h4>
+                        <p style="font-size:14px">
+                            Phase 6 simulation showed that a pure surge model maximized efficiency but 
+                            <em>reduced</em> total rider earnings by Rs110/wk. We rejected this in favor 
+                            of a Hybrid model.
+                        </p>
+                    </div>
+                </div>
+                <div class="viz-img">
+                    <img src="../charts/chart5_did.png" alt="DiD Parallel Trends">
+                </div>
+            </div>
+        </section>
+
+        <!-- PHASE 7: STRATEGY -->
+        <section id="phase7" style="border-bottom:none">
+            <div class="section-header">
+                <span class="section-tag">Phase 06 / Strategic Recommendation</span>
+                <h2 class="section-title">The Path to Rs60 Cr Savings.</h2>
+                <p class="section-desc">
+                    Efficiency is not about cutting; it's about reallocation. By moving from a one-size-fits-all 
+                    model to a tenure-x-tier matrix, we improve the platform's bottom line while 
+                    increasing rider stability.
+                </p>
+            </div>
+
+            <div class="table-wrap">
+                <table>
+                    <thead>
+                        <tr><th>Rider Segment</th><th>Current Model</th><th>Recommended</th><th>CPID Delta</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>0–2mo (Tier 1)</td><td>Flat Bonus</td><td>Surge Top-up</td><td>−Rs46.7</td></tr>
+                        <tr><td>2–6mo (Tier 2/3)</td><td>Flat Bonus</td><td class="best">Streak (Threshold-based)</td><td>−Rs23.0</td></tr>
+                        <tr><td>12+mo (All Tiers)</td><td>Flat Bonus</td><td>Surge (Hybrid)</td><td>−Rs30.7</td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="pull-quote">
+                "The conflict between platform efficiency and rider welfare only exists in a poorly designed incentive model."
+            </div>
+
+            <div style="text-align:center; margin-top:4rem; display: flex; justify-content: center; gap: 2rem;">
+                <a href="https://github.com/NaveenGupta-26/cpid-rider-incentive-optimization" class="card" style="text-decoration:none; display:inline-block; padding:1.5rem 3rem">
+                    <span style="color:var(--accent); font-weight:700">Explore on GitHub →</span>
+                </a>
+            </div>
+        </section>
+
+        <!-- FOOTER -->
+        <footer style="padding:4rem 10%; border-top:1px solid var(--border); background:var(--surface)">
+            <div class="grid-2" style="align-items:center">
+                <div>
+                    <h4 style="font-family:var(--serif); font-size:24px; margin-bottom:0.5rem">Naveen Gupta</h4>
+                    <p style="color:var(--paper-dim); font-size:14px">Growth Analyst | Product Strategy | Data Storyteller</p>
+                </div>
+                <div style="text-align:right">
+                    <p style="font-size:12px; color:var(--paper-dim)">Built with Python, SQL (DuckDB), and Industry-Verified Benchmarks.</p>
+                    <p style="font-size:11px; color:rgba(255,255,255,0.2); margin-top:1rem">© 2026 Naveen Gupta Portfolio</p>
+                </div>
+            </div>
+        </footer>
+    </main>
+</div>
+
+<script>
+    // Smooth scrolling nav highlight
+    const sections = document.querySelectorAll('section');
+    const navLinks = document.querySelectorAll('.nav-links a');
+
+    window.addEventListener('scroll', () => {
+        let current = '';
+        sections.forEach(section => {
+            const sectionTop = section.offsetTop;
+            const sectionHeight = section.clientHeight;
+            if (pageYOffset >= (sectionTop - 200)) {
+                current = section.getAttribute('id');
+            }
+        });
+
+        navLinks.forEach(link => {
+            link.classList.remove('active');
+            if (link.getAttribute('href').includes(current)) {
+                link.classList.add('active');
+            }
+        });
+    });
+</script>
+
+</body>
+</html>

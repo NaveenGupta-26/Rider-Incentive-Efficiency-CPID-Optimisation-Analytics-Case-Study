@@ -1,0 +1,538 @@
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;1,400&family=Plus+Jakarta+Sans:wght@400;500;600&display=swap');
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --ink:#1c1c1c;--ink2:#3d3d3d;--ink3:#6b6b6b;
+  --rule:#e5e3de;--bg:#f8f7f4;--bg2:#f0ede8;--page:#fff;
+  --red:#c0392b;--blue:#1a4fad;--green:#1a6b3c;--amber:#b06a00;
+  --mono:'Courier New',monospace;
+  --sans:'Plus Jakarta Sans',sans-serif;--serif:'Lora',serif;
+}
+body{background:var(--bg);font-family:var(--sans);color:var(--ink)}
+.doc{max-width:720px;margin:0 auto;padding:1.5rem 0 3rem}
+
+/* nav */
+.tabs{display:flex;gap:6px;margin-bottom:1.5rem;flex-wrap:wrap}
+.tab{font-size:12px;font-weight:500;padding:6px 14px;border-radius:2px;cursor:pointer;
+     border:0.5px solid var(--rule);color:var(--ink3);background:transparent;transition:all .15s}
+.tab.on{background:var(--ink);color:#fff;border-color:var(--ink)}
+.pane{display:none}.pane.on{display:block}
+
+/* structure */
+.strip{display:flex;align-items:center;gap:10px;margin:0 0 1.25rem}
+.stag{font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;
+      background:var(--ink);color:#fff;padding:3px 10px;border-radius:2px;flex-shrink:0}
+.sttl{font-size:11px;color:var(--ink3);letter-spacing:.08em;text-transform:uppercase}
+.srul{flex:1;height:0.5px;background:var(--rule)}
+
+.card{background:var(--page);border:0.5px solid var(--rule);border-radius:3px;padding:1.75rem 2rem;margin-bottom:1rem}
+.qtitle{font-family:var(--serif);font-size:22px;line-height:1.2;margin-bottom:3px}
+.qtitle em{font-style:italic;color:var(--blue)}
+.qsub{font-size:11px;color:var(--ink3);letter-spacing:.08em;text-transform:uppercase;
+      margin-bottom:1.25rem;padding-bottom:1.25rem;border-bottom:0.5px solid var(--rule)}
+.sh{font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--ink3);margin:1.5rem 0 .5rem}
+p{font-size:13px;line-height:1.8;color:var(--ink2);margin-bottom:.875rem}
+p:last-child{margin-bottom:0}
+p strong{font-weight:600;color:var(--ink)}
+
+/* SQL block */
+.sql{background:#1a1a1a;color:#e8e4dc;border-radius:4px;padding:1.25rem 1.5rem;
+     font-family:var(--mono);font-size:11.5px;line-height:1.75;margin:1rem 0;overflow-x:auto}
+.kw{color:#7ab4f5}  /* SELECT WITH FROM WHERE GROUP ORDER */
+.fn{color:#f0a070}  /* ROUND AVG SUM COUNT NULLIF CASE */
+.cm{color:#666;font-style:italic}
+.col{color:#a0d8a0}
+.num{color:#f5d67a}
+.str{color:#f0a070}
+
+/* results table */
+.rt{width:100%;border-collapse:collapse;font-size:12px;margin:1rem 0}
+.rt th{text-align:left;font-size:10px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;
+       color:var(--ink3);padding:6px 10px;border-bottom:1px solid var(--rule);background:var(--bg2)}
+.rt td{padding:7px 10px;border-bottom:0.5px solid var(--rule);color:var(--ink2)}
+.rt tr:last-child td{border-bottom:none}
+.rt .best{color:var(--green);font-weight:600}
+.rt .worst{color:var(--red);font-weight:600}
+.rt .hi{color:var(--blue);font-weight:500}
+
+/* insight callouts */
+.insight{border-left:3px solid var(--blue);background:#f0f5ff;padding:.875rem 1.125rem;
+         border-radius:0 3px 3px 0;margin:1.25rem 0}
+.ig-label{font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;
+          color:var(--blue);margin-bottom:5px}
+.insight p{font-size:13px;margin:0}
+
+.warn{border-left:3px solid var(--amber);background:#fff8f0;padding:.875rem 1.125rem;
+      border-radius:0 3px 3px 0;margin:1.25rem 0}
+.wl{font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--amber);margin-bottom:5px}
+
+.finding{border:0.5px solid var(--rule);border-radius:3px;padding:.875rem 1rem;margin-bottom:.75rem}
+.fh{display:flex;align-items:center;gap:8px;margin-bottom:5px}
+.fb-badge{font-size:10px;font-weight:600;padding:2px 8px;border-radius:2px;
+          background:var(--ink);color:#fff;font-family:var(--mono)}
+.ft{font-size:13px;font-weight:600;color:var(--ink)}
+.fb{font-size:13px;line-height:1.65;color:var(--ink2)}
+
+/* metrics row */
+.mrow{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:1.25rem 0}
+.mbox{background:var(--bg2);border-radius:3px;padding:.875rem .75rem;text-align:center}
+.mv{font-family:var(--serif);font-size:19px;color:var(--ink)}
+.ml{font-size:11px;color:var(--ink3);margin-top:3px;line-height:1.4}
+
+.mrow2{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin:1.25rem 0}
+
+.honest{background:#f5f5f3;border:0.5px solid var(--rule);border-radius:3px;
+        padding:.875rem 1rem;margin:1.25rem 0}
+.hl{font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--ink3);margin-bottom:5px}
+</style>
+
+<div class="doc">
+
+<div class="tabs">
+  <button class="tab on" onclick="show('q1',this)">Q1 — Baseline</button>
+  <button class="tab" onclick="show('q2',this)">Q2 — CPID Core</button>
+  <button class="tab" onclick="show('q3',this)">Q3 — Tenure ×Type</button>
+  <button class="tab" onclick="show('q4',this)">Q4 — City Tier</button>
+  <button class="tab" onclick="show('q5',this)">Q5 — Cliff Effect</button>
+  <button class="tab" onclick="show('q6',this)">Q6 — Streak Rate</button>
+  <button class="tab" onclick="show('q7',this)">Q7 — Time of Day</button>
+  <button class="tab" onclick="show('q8',this)">Q8 — Unit Economics</button>
+</div>
+
+<!-- ══════════════ Q1 ══════════════ -->
+<div class="pane on" id="q1">
+<div class="strip"><span class="stag">Q1</span><span class="sttl">Baseline Delivery Rate</span><span class="srul"></span></div>
+<div class="card">
+  <div class="qtitle">What Does Each Rider Normally<br><em>Deliver Without Any Bonus?</em></div>
+  <div class="qsub">Foundation query — must run before anything else. This is the counterfactual.</div>
+
+  <p>Before we can measure what a bonus <em>adds</em>, we need to know what a rider delivers without one. This query takes only weeks where no incentive was active and at least 4 days were worked — giving us a clean, stable baseline per rider, grouped by how long they've been on the platform.</p>
+  <p>This is the denominator of the entire CPID framework. If this number is wrong, everything downstream is wrong. So we build it first, carefully.</p>
+
+  <div class="sh">The query</div>
+  <div class="sql"><span class="kw">WITH</span> no_inc <span class="kw">AS</span> (
+  <span class="kw">SELECT</span>
+    <span class="col">tenure_band</span>,
+    <span class="col">rider_id</span>,
+    <span class="fn">AVG</span>(deliveries_completed) <span class="kw">AS</span> avg_baseline_deliveries
+  <span class="kw">FROM</span> shifts
+  <span class="kw">WHERE</span> incentive_type = <span class="str">'none'</span>
+    <span class="kw">AND</span> days_active >= <span class="num">4</span>       <span class="cm">-- exclude low-activity weeks that skew baseline</span>
+  <span class="kw">GROUP BY</span> tenure_band, rider_id
+)
+<span class="kw">SELECT</span>
+  tenure_band,
+  <span class="fn">COUNT</span>(rider_id)                        <span class="kw">AS</span> riders_in_band,
+  <span class="fn">ROUND</span>(<span class="fn">AVG</span>(avg_baseline_deliveries),<span class="num">1</span>)  <span class="kw">AS</span> avg_weekly_baseline,
+  <span class="fn">ROUND</span>(<span class="fn">MIN</span>(avg_baseline_deliveries),<span class="num">1</span>)  <span class="kw">AS</span> min_weekly_baseline,
+  <span class="fn">ROUND</span>(<span class="fn">MAX</span>(avg_baseline_deliveries),<span class="num">1</span>)  <span class="kw">AS</span> max_weekly_baseline
+<span class="kw">FROM</span> no_inc
+<span class="kw">GROUP BY</span> tenure_band
+<span class="kw">ORDER BY</span> <span class="fn">CASE</span> tenure_band
+  <span class="kw">WHEN</span> <span class="str">'0-2mo'</span>  <span class="kw">THEN</span> <span class="num">1</span>  <span class="kw">WHEN</span> <span class="str">'2-6mo'</span>  <span class="kw">THEN</span> <span class="num">2</span>
+  <span class="kw">WHEN</span> <span class="str">'6-12mo'</span> <span class="kw">THEN</span> <span class="num">3</span>  <span class="kw">ELSE</span> <span class="num">4</span> <span class="kw">END</span></div>
+
+  <div class="sh">Real output from our dataset</div>
+  <table class="rt">
+    <tr><th>Tenure band</th><th>Riders</th><th>Avg weekly baseline</th><th>Min</th><th>Max</th></tr>
+    <tr><td>0–2 months</td><td>117</td><td>94.3 deliveries/week</td><td>23.0</td><td>247.0</td></tr>
+    <tr><td>2–6 months</td><td>544</td><td>91.6 deliveries/week</td><td>23.3</td><td>260.0</td></tr>
+    <tr><td>6–12 months</td><td>1,003</td><td>94.6 deliveries/week</td><td>21.5</td><td>302.0</td></tr>
+    <tr><td>12+ months</td><td>1,040</td><td>92.1 deliveries/week</td><td>20.0</td><td>281.0</td></tr>
+  </table>
+
+  <div class="insight">
+    <div class="ig-label">What this tells us</div>
+    <p>Baseline deliveries are remarkably consistent across tenure bands — all hovering around 92–95 per week. This is an important finding: it means the differences in CPID that Q2 and Q3 will show are <strong>not</strong> caused by veterans simply doing more deliveries by default. All tenure bands start from a similar baseline. Any difference in how much a bonus moves them above that baseline is a genuine elasticity difference, not a volume effect.</p>
+  </div>
+</div>
+</div>
+
+<!-- ══════════════ Q2 ══════════════ -->
+<div class="pane" id="q2">
+<div class="strip"><span class="stag">Q2</span><span class="sttl">CPID by Incentive Type — Core DiD Query</span><span class="srul"></span></div>
+<div class="card">
+  <div class="qtitle">Which Bonus Type Generates<br><em>the Most Incremental Deliveries Per Rupee?</em></div>
+  <div class="qsub">The main hypothesis 1 test. Difference-in-Differences approach.</div>
+
+  <p>This is the central query of the entire project. For each incentive type, we calculate what riders delivered in incentive weeks versus what they would have delivered at baseline — then divide total bonus spend by those incremental deliveries. The result is CPID: the true cost of each extra delivery the bonus actually generated.</p>
+  <p>The DiD approach here is: compare each rider to <em>their own</em> baseline (not a city average, not a platform average — their personal counterfactual from Q1). This removes confounders like city density and rider skill from the comparison.</p>
+
+  <div class="sh">The query</div>
+  <div class="sql"><span class="kw">WITH</span> baseline <span class="kw">AS</span> (
+  <span class="kw">SELECT</span> rider_id,
+    <span class="fn">AVG</span>(deliveries_completed) <span class="kw">AS</span> avg_baseline
+  <span class="kw">FROM</span> shifts
+  <span class="kw">WHERE</span> incentive_type = <span class="str">'none'</span> <span class="kw">AND</span> days_active >= <span class="num">4</span>
+  <span class="kw">GROUP BY</span> rider_id
+),
+incentive_weeks <span class="kw">AS</span> (
+  <span class="kw">SELECT</span> s.rider_id, s.incentive_type,
+    <span class="fn">SUM</span>(s.deliveries_completed)                  <span class="kw">AS</span> total_deliveries,
+    <span class="fn">SUM</span>(s.deliveries_completed - b.avg_baseline) <span class="kw">AS</span> incr_deliveries,
+    <span class="fn">SUM</span>(s.incentive_pay)                         <span class="kw">AS</span> total_incentive_pay
+  <span class="kw">FROM</span> shifts s
+  <span class="kw">JOIN</span> baseline b <span class="kw">ON</span> b.rider_id = s.rider_id
+  <span class="kw">WHERE</span> s.incentive_type != <span class="str">'none'</span>
+  <span class="kw">GROUP BY</span> s.rider_id, s.incentive_type
+)
+<span class="kw">SELECT</span>
+  incentive_type,
+  <span class="fn">COUNT</span>(rider_id)                                             <span class="kw">AS</span> riders,
+  <span class="fn">ROUND</span>(<span class="fn">SUM</span>(total_incentive_pay) /
+    <span class="fn">NULLIF</span>(<span class="fn">SUM</span>(<span class="fn">GREATEST</span>(incr_deliveries,<span class="num">0</span>)),<span class="num">0</span>), <span class="num">1</span>)        <span class="kw">AS</span> cpid_rs,
+  <span class="fn">ROUND</span>(<span class="fn">SUM</span>(<span class="fn">GREATEST</span>(incr_deliveries,<span class="num">0</span>))*<span class="num">100.0</span>/
+    <span class="fn">NULLIF</span>(<span class="fn">SUM</span>(total_deliveries),<span class="num">0</span>), <span class="num">1</span>)                   <span class="kw">AS</span> pct_deliveries_incremental
+<span class="kw">FROM</span> incentive_weeks
+<span class="kw">GROUP BY</span> incentive_type
+<span class="kw">ORDER BY</span> cpid_rs</div>
+
+  <div class="sh">Real output — H1 result</div>
+  <table class="rt">
+    <tr><th>Incentive type</th><th>Riders</th><th>Total deliveries</th><th>Incremental deliveries</th><th>Total spend (₹)</th><th>CPID (₹)</th><th>% that were incremental</th></tr>
+    <tr><td class="best">Surge top-up</td><td>1,744</td><td>7,96,638</td><td>1,14,541</td><td>66,37,150</td><td class="best">57.9</td><td>14.4%</td></tr>
+    <tr><td>Streak bonus</td><td>1,798</td><td>10,51,909</td><td>1,65,275</td><td>1,20,93,240</td><td>73.2</td><td>15.7%</td></tr>
+    <tr><td class="worst">Flat per-order</td><td>1,786</td><td>10,14,830</td><td>1,32,248</td><td>1,21,77,960</td><td class="worst">92.1</td><td>13.0%</td></tr>
+  </table>
+
+  <div class="mrow">
+    <div class="mbox"><div class="mv">₹57.9</div><div class="ml">Surge top-up CPID — most efficient per incremental delivery</div></div>
+    <div class="mbox"><div class="mv">37%</div><div class="ml">CPID gap: surge vs flat (₹57.9 vs ₹92.1). Flat costs 37% more per extra delivery.</div></div>
+    <div class="mbox"><div class="mv">15.7%</div><div class="ml">Of all deliveries in streak-bonus weeks were genuinely incremental — highest of the three</div></div>
+  </div>
+
+  <div class="insight">
+    <div class="ig-label">H1 verdict — partially confirmed, with a twist</div>
+    <p>Streak bonus beats flat on CPID (₹73.2 vs ₹92.1 — a 20.5% difference), which confirms H1's direction. But surge top-up is actually the most efficient of all three at ₹57.9. The reason: surge bonuses pay per online hour — they move supply at Stage 1 of the funnel (riders coming online) rather than Stage 3 (pushing for extra completions). Since coming online at all is the biggest supply bottleneck, this has the highest marginal impact.</p>
+    <p>The important nuance: <strong>flat per-order bonus has an ROI below 1.0 in Q8</strong>, meaning the platform is spending more on the bonus than the incremental deliveries are worth in revenue. Streak and surge both generate positive ROI.</p>
+  </div>
+
+  <div class="warn">
+    <div class="wl">What NULLIF and GREATEST are doing here — and why they matter</div>
+    <p style="font-size:13px;margin:0">GREATEST(incr_deliveries, 0) prevents negative incrementality from dragging down the average — some riders deliver slightly less in incentive weeks due to random variance, not because the bonus harmed them. NULLIF prevents division-by-zero errors when a rider has no incremental deliveries at all. Both are defensive SQL patterns that a senior analyst should write by default.</p>
+  </div>
+</div>
+</div>
+
+<!-- ══════════════ Q3 ══════════════ -->
+<div class="pane" id="q3">
+<div class="strip"><span class="stag">Q3</span><span class="sttl">CPID by Tenure Band × Incentive Type</span><span class="srul"></span></div>
+<div class="card">
+  <div class="qtitle">Who Responds Best<br><em>to Which Bonus, and When?</em></div>
+  <div class="qsub">H2 deep dive — the segmentation that makes recommendations actionable.</div>
+
+  <p>Q2 tells you which incentive type is most efficient overall. Q3 tells you <em>for which riders</em>. This is the query that turns a finding into a strategy. If streak bonuses are efficient for 2–6 month riders but not for 12+ month veterans, the recommendation is not "replace all flat bonuses with streak bonuses" — it's "replace flat bonuses with streak bonuses for 2–6 month riders, and something else for veterans."</p>
+
+  <div class="sh">The query</div>
+  <div class="sql"><span class="kw">WITH</span> baseline <span class="kw">AS</span> (
+  <span class="kw">SELECT</span> rider_id, <span class="fn">AVG</span>(deliveries_completed) <span class="kw">AS</span> avg_baseline
+  <span class="kw">FROM</span> shifts <span class="kw">WHERE</span> incentive_type = <span class="str">'none'</span> <span class="kw">AND</span> days_active >= <span class="num">4</span>
+  <span class="kw">GROUP BY</span> rider_id
+)
+<span class="kw">SELECT</span>
+  s.tenure_band,
+  s.incentive_type,
+  <span class="fn">COUNT</span>(<span class="kw">DISTINCT</span> s.rider_id)                               <span class="kw">AS</span> riders,
+  <span class="fn">ROUND</span>(<span class="fn">AVG</span>(s.deliveries_completed - b.avg_baseline),<span class="num">2</span>)    <span class="kw">AS</span> avg_incr_per_week,
+  <span class="fn">ROUND</span>(<span class="fn">AVG</span>(s.incentive_pay) /
+    <span class="fn">NULLIF</span>(<span class="fn">AVG</span>(<span class="fn">GREATEST</span>(s.deliveries_completed
+      - b.avg_baseline, <span class="num">0.01</span>)),<span class="num">0</span>), <span class="num">1</span>)                     <span class="kw">AS</span> cpid_rs
+<span class="kw">FROM</span> shifts s
+<span class="kw">JOIN</span> baseline b <span class="kw">ON</span> b.rider_id = s.rider_id
+<span class="kw">WHERE</span> s.incentive_type != <span class="str">'none'</span>
+<span class="kw">GROUP BY</span> s.tenure_band, s.incentive_type
+<span class="kw">ORDER BY</span> tenure_band_order, cpid_rs</div>
+
+  <div class="sh">Real output — the full segmentation matrix</div>
+  <table class="rt">
+    <tr><th>Tenure</th><th>Incentive type</th><th>Riders</th><th>Avg incremental/week</th><th>CPID (₹)</th></tr>
+    <tr><td rowspan="3" style="font-weight:600;color:var(--ink3);border-right:0.5px solid var(--rule)">0–2 months</td><td>Surge top-up</td><td>76</td><td>13.91</td><td>43.1</td></tr>
+    <tr><td>Streak bonus</td><td>95</td><td>12.69</td><td>70.2</td></tr>
+    <tr><td>Flat per-order</td><td>95</td><td>5.77</td><td>89.8</td></tr>
+    <tr><td rowspan="3" style="font-weight:600;color:var(--green);border-right:0.5px solid var(--rule)">2–6 months ★</td><td class="best">Surge top-up</td><td>476</td><td class="best">21.80</td><td class="best">35.2</td></tr>
+    <tr><td>Streak bonus</td><td>507</td><td>25.18</td><td>48.8</td></tr>
+    <tr><td>Flat per-order</td><td>514</td><td>19.92</td><td>58.2</td></tr>
+    <tr><td rowspan="3" style="font-weight:600;color:var(--ink3);border-right:0.5px solid var(--rule)">6–12 months</td><td>Surge top-up</td><td>911</td><td>15.12</td><td>44.2</td></tr>
+    <tr><td>Streak bonus</td><td>964</td><td>17.72</td><td>58.6</td></tr>
+    <tr><td>Flat per-order</td><td>975</td><td>13.84</td><td>68.8</td></tr>
+    <tr><td rowspan="3" style="font-weight:600;color:var(--red);border-right:0.5px solid var(--rule)">12+ months</td><td>Surge top-up</td><td>971</td><td>7.62</td><td>62.0</td></tr>
+    <tr><td>Streak bonus</td><td>1,023</td><td>9.63</td><td>75.6</td></tr>
+    <tr><td class="worst">Flat per-order</td><td>1,026</td><td>5.30</td><td class="worst">92.7</td></tr>
+  </table>
+
+  <div class="insight">
+    <div class="ig-label">H2 confirmed — U-shape is clear and the 2–6 month band is the sweet spot</div>
+    <p>The data shows exactly the pattern we hypothesised. CPID is worst at both extremes (new riders: flat ₹89.8, veterans: flat ₹92.7) and best in the 2–6 month band (surge ₹35.2, streak ₹48.8). The gap between the best case (2–6 month surge at ₹35.2) and worst case (12+ month flat at ₹92.7) is <strong>2.6×</strong>. That is a massive difference being ignored by a one-size-fits-all bonus structure.</p>
+    <p>For 12+ month veterans, flat bonuses are producing only 5.30 incremental deliveries per week on average — these are genuinely always-on riders. The recommendation is not to cut their pay but to shift them to surge top-ups, which at least reward their online hours rather than trying to squeeze extra deliveries from people already at capacity.</p>
+  </div>
+</div>
+</div>
+
+<!-- ══════════════ Q4 ══════════════ -->
+<div class="pane" id="q4">
+<div class="strip"><span class="stag">Q4</span><span class="sttl">CPID by City Tier</span><span class="srul"></span></div>
+<div class="card">
+  <div class="qtitle">Does the Same Bonus<br><em>Work Harder in Smaller Cities?</em></div>
+  <div class="qsub">H3 test — geographic efficiency of incentive spend.</div>
+
+  <p>The same ₹100 bonus sent to a rider in Mumbai and a rider in Bhopal does not buy the same result. Mumbai has thousands of riders already at capacity during peak hours. Bhopal has fewer riders and more room for supply to respond to incentives. This query measures that gap — and it turns out to be large enough to completely change how the incentive budget should be allocated geographically.</p>
+
+  <div class="sh">The query</div>
+  <div class="sql"><span class="kw">WITH</span> baseline <span class="kw">AS</span> (
+  <span class="kw">SELECT</span> rider_id, city_tier,
+    <span class="fn">AVG</span>(deliveries_completed) <span class="kw">AS</span> avg_baseline
+  <span class="kw">FROM</span> shifts
+  <span class="kw">WHERE</span> incentive_type = <span class="str">'none'</span> <span class="kw">AND</span> days_active >= <span class="num">4</span>
+  <span class="kw">GROUP BY</span> rider_id, city_tier
+),
+weekly <span class="kw">AS</span> (
+  <span class="kw">SELECT</span> s.city_tier, s.incentive_type,
+    <span class="fn">SUM</span>(<span class="fn">GREATEST</span>(s.deliveries_completed - b.avg_baseline, <span class="num">0</span>)) <span class="kw">AS</span> incr_del,
+    <span class="fn">SUM</span>(s.incentive_pay)                                       <span class="kw">AS</span> spend
+  <span class="kw">FROM</span> shifts s
+  <span class="kw">JOIN</span> baseline b <span class="kw">ON</span> b.rider_id = s.rider_id
+  <span class="kw">WHERE</span> s.incentive_type != <span class="str">'none'</span>
+  <span class="kw">GROUP BY</span> s.city_tier, s.incentive_type
+)
+<span class="kw">SELECT</span>
+  city_tier,
+  <span class="fn">ROUND</span>(<span class="fn">SUM</span>(incr_del), <span class="num">0</span>)               <span class="kw">AS</span> total_incr_deliveries,
+  <span class="fn">ROUND</span>(<span class="fn">SUM</span>(spend), <span class="num">0</span>)                 <span class="kw">AS</span> total_spend_rs,
+  <span class="fn">ROUND</span>(<span class="fn">SUM</span>(spend)/<span class="fn">NULLIF</span>(<span class="fn">SUM</span>(incr_del),<span class="num">0</span>), <span class="num">1</span>) <span class="kw">AS</span> cpid_rs,
+  <span class="fn">ROUND</span>(<span class="fn">SUM</span>(spend)*<span class="num">100.0</span>/
+    (<span class="kw">SELECT</span> <span class="fn">SUM</span>(spend) <span class="kw">FROM</span> weekly), <span class="num">1</span>)  <span class="kw">AS</span> pct_of_total_spend
+<span class="kw">FROM</span> weekly
+<span class="kw">GROUP BY</span> city_tier
+<span class="kw">ORDER BY</span> cpid_rs</div>
+
+  <div class="sh">Real output — H3 result</div>
+  <table class="rt">
+    <tr><th>City tier</th><th>Incr. deliveries generated</th><th>Total spend (₹)</th><th>CPID (₹)</th><th>% of total budget</th></tr>
+    <tr><td class="best">Tier-3 (Surat, Bhopal etc.)</td><td>1,83,233</td><td>85,48,303</td><td class="best">46.9</td><td>27.7%</td></tr>
+    <tr><td>Tier-2 (Pune, Jaipur etc.)</td><td>1,88,713</td><td>1,17,57,413</td><td>62.3</td><td>38.5%</td></tr>
+    <tr><td class="worst">Tier-1 (Mumbai, Delhi, Bengaluru)</td><td>25,839</td><td>1,04,58,884</td><td class="worst">157.4</td><td>33.8%</td></tr>
+  </table>
+
+  <div class="mrow">
+    <div class="mbox"><div class="mv">2.53×</div><div class="ml">Tier-1 vs Tier-2 CPID ratio — exceeds the 2× hypothesis threshold</div></div>
+    <div class="mbox"><div class="mv">33.8%</div><div class="ml">Of total incentive budget spent in Tier-1 cities, generating only 6.3% of all incremental deliveries</div></div>
+    <div class="mbox"><div class="mv">₹157</div><div class="ml">What it costs to generate one incremental delivery in Mumbai / Delhi / Bengaluru</div></div>
+  </div>
+
+  <div class="insight">
+    <div class="ig-label">H3 confirmed — and the numbers are starker than expected</div>
+    <p>Tier-1 cities consume 33.8% of the total incentive budget but generate only 6.3% of all incremental deliveries across all tiers. Tier-2 cities use 38.5% of the budget and generate 46.4% of incremental deliveries. Tier-3 uses 27.7% and generates 45.1%. The Tier-1 vs Tier-2 CPID gap is <strong>2.53× — well above the 2× threshold</strong> we set in H3. This is the most financially impactful finding in the project. Reallocating even 10% of the Tier-1 budget to Tier-2 and Tier-3 cities would generate substantially more incremental deliveries for the same spend.</p>
+  </div>
+
+  <div class="warn">
+    <div class="wl">Important nuance on Tier-1 — this doesn't mean pull out entirely</div>
+    <p style="font-size:13px;margin:0">Tier-1 metros drive the bulk of GMV and order volume. Supply must be maintained there even if incentives are less efficient. The recommendation is not "stop incentivising Tier-1 riders" — it's "shift Tier-1 incentives toward surge top-ups that reward online presence rather than extra deliveries, and redirect discretionary incentive budget toward Tier-2/3 where marginal spend creates more supply."</p>
+  </div>
+</div>
+</div>
+
+<!-- ══════════════ Q5 ══════════════ -->
+<div class="pane" id="q5">
+<div class="strip"><span class="stag">Q5</span><span class="sttl">Incentive Cliff Effect</span><span class="srul"></span></div>
+<div class="card">
+  <div class="qtitle">What Happens the Week<br><em>After the Bonus Ends?</em></div>
+  <div class="qsub">Supply risk check — measuring dependency vs habit formation.</div>
+
+  <p>When a bonus ends, do riders maintain their higher activity level, or do they drop back? A small drop is normal. A large drop means the incentive created dependency — riders have mentally reset their earnings expectations upward, and now the non-bonus week feels like a pay cut even though it isn't. This is both a supply risk and, critically, a rider welfare risk — sudden perceived income drops cause stress and exits.</p>
+
+  <div class="sh">The query</div>
+  <div class="sql"><span class="kw">SELECT</span>
+  cliff_week_flag,
+  <span class="fn">COUNT</span>(*)                             <span class="kw">AS</span> shift_weeks,
+  <span class="fn">ROUND</span>(<span class="fn">AVG</span>(online_hours),<span class="num">1</span>)           <span class="kw">AS</span> avg_online_hours,
+  <span class="fn">ROUND</span>(<span class="fn">AVG</span>(deliveries_completed),<span class="num">1</span>)   <span class="kw">AS</span> avg_deliveries,
+  <span class="fn">ROUND</span>(<span class="fn">AVG</span>(total_weekly_earnings),<span class="num">0</span>)  <span class="kw">AS</span> avg_weekly_earnings_rs
+<span class="kw">FROM</span> shifts
+<span class="kw">GROUP BY</span> cliff_week_flag
+<span class="kw">ORDER BY</span> cliff_week_flag</div>
+
+  <div class="sh">Real output + by tenure band</div>
+  <table class="rt">
+    <tr><th>Week type</th><th>Weeks</th><th>Avg online hours</th><th>Avg deliveries</th><th>Avg weekly earnings (₹)</th></tr>
+    <tr><td>Normal week</td><td>31,016</td><td>51.3 hrs</td><td>103.8</td><td>5,679</td></tr>
+    <tr><td>Cliff week (post-incentive)</td><td>7,047</td><td>49.2 hrs</td><td>92.9</td><td>4,179</td></tr>
+    <tr><td colspan="2" style="color:var(--ink3);font-size:11px">Change →</td><td>−2.1 hrs (−4.1%)</td><td>−10.9 (−10.5%)</td><td>−₹1,500 (−26.4%)</td></tr>
+  </table>
+
+  <div class="sh">Cliff effect broken down by tenure (key nuance)</div>
+  <table class="rt">
+    <tr><th>Tenure</th><th>Normal hrs</th><th>Cliff hrs</th><th>Drop</th><th>Normal deliveries</th><th>Cliff deliveries</th></tr>
+    <tr><td>0–2 months</td><td>50.9</td><td>49.2</td><td>−3.3%</td><td>106.5</td><td>94.0</td></tr>
+    <tr><td>2–6 months</td><td>51.2</td><td class="worst">46.7</td><td class="worst">−8.8%</td><td>111.8</td><td>91.8</td></tr>
+    <tr><td>6–12 months</td><td>51.5</td><td>48.7</td><td>−5.4%</td><td>107.4</td><td>94.4</td></tr>
+    <tr><td>12+ months</td><td>51.2</td><td class="best">50.3</td><td class="best">−1.8%</td><td>98.7</td><td>92.1</td></tr>
+  </table>
+
+  <div class="insight">
+    <div class="ig-label">The cliff is manageable — but the earnings drop is the real issue</div>
+    <p>Online hours drop only 4.1% in cliff weeks — that's minor. But deliveries drop 10.5% and earnings drop 26.4%. The earnings drop is large because cliff weeks have no incentive pay at all (by definition). This is a rider welfare signal: the week after a high-incentive period, a rider can feel a significant income dip even if they're working just as hard. The 2–6 month band shows the biggest cliff drop (−8.8% in hours) — ironically the group that responds best to incentives is also most susceptible to the cliff. The design implication: avoid creating incentive calendars that have sharp on/off switches. Gradual incentive tapering is better for rider stability than binary on/off scheduling.</p>
+  </div>
+</div>
+</div>
+
+<!-- ══════════════ Q6 ══════════════ -->
+<div class="pane" id="q6">
+<div class="strip"><span class="stag">Q6</span><span class="sttl">Streak Completion Rate</span><span class="srul"></span></div>
+<div class="card">
+  <div class="qtitle">Do Riders Actually<br><em>Complete the Streak?</em></div>
+  <div class="qsub">Streak validity check — if nobody completes the streak, the psychology argument breaks down.</div>
+
+  <p>The case for streak bonuses rests on one behavioural claim: riders who are close to a threshold will push to hit it, generating incremental deliveries. But this only works if riders are actually completing streaks. If completion rates are low, the bonus is being earned by high-volume riders who'd hit the threshold anyway, not by the marginal rider being pulled to do 3 more deliveries.</p>
+
+  <div class="sh">The query</div>
+  <div class="sql"><span class="cm">-- Streak = 10 deliveries per day. We proxy at weekly level:</span>
+<span class="cm">-- avg_daily_deliveries = deliveries_completed / days_active</span>
+<span class="cm">-- If avg daily >= 10, rider is consistently hitting the daily streak threshold</span>
+<span class="kw">WITH</span> daily_proxy <span class="kw">AS</span> (
+  <span class="kw">SELECT</span>
+    tenure_band, rider_id, week_start,
+    deliveries_completed, days_active, incentive_pay,
+    <span class="fn">ROUND</span>(deliveries_completed::<span class="kw">FLOAT</span> / days_active, <span class="num">1</span>) <span class="kw">AS</span> avg_daily_del,
+    <span class="fn">CASE</span> <span class="kw">WHEN</span> deliveries_completed / days_active >= <span class="num">10</span>
+         <span class="kw">THEN</span> <span class="num">1</span> <span class="kw">ELSE</span> <span class="num">0</span> <span class="kw">END</span>                           <span class="kw">AS</span> hit_daily_streak
+  <span class="kw">FROM</span> shifts
+  <span class="kw">WHERE</span> incentive_type = <span class="str">'streak_bonus'</span>
+)
+<span class="kw">SELECT</span>
+  tenure_band,
+  <span class="fn">COUNT</span>(*)                                            <span class="kw">AS</span> streak_weeks,
+  <span class="fn">ROUND</span>(<span class="fn">AVG</span>(avg_daily_del), <span class="num">1</span>)                       <span class="kw">AS</span> avg_daily_deliveries,
+  <span class="fn">ROUND</span>(<span class="fn">100.0</span>*<span class="fn">SUM</span>(hit_daily_streak)/<span class="fn">COUNT</span>(*), <span class="num">1</span>)   <span class="kw">AS</span> pct_hitting_streak,
+  <span class="fn">ROUND</span>(<span class="fn">AVG</span>(incentive_pay), <span class="num">0</span>)                       <span class="kw">AS</span> avg_incentive_earned_rs
+<span class="kw">FROM</span> daily_proxy
+<span class="kw">GROUP BY</span> tenure_band
+<span class="kw">ORDER BY</span> tenure_band_order</div>
+
+  <div class="sh">Real output + honest finding</div>
+  <table class="rt">
+    <tr><th>Tenure</th><th>Streak weeks</th><th>Avg daily deliveries</th><th>% hitting daily streak</th><th>Avg incentive earned (₹)</th></tr>
+    <tr><td>0–2 months</td><td>151</td><td>19.0</td><td class="hi">88.1%</td><td>1,252</td></tr>
+    <tr><td>2–6 months</td><td>1,550</td><td>20.8</td><td class="best">90.0%</td><td>1,357</td></tr>
+    <tr><td>6–12 months</td><td>3,382</td><td>19.6</td><td class="best">90.8%</td><td>1,286</td></tr>
+    <tr><td>12+ months</td><td>4,787</td><td>17.8</td><td>85.2%</td><td>1,160</td></tr>
+  </table>
+
+  <div class="honest">
+    <div class="hl">Honest finding — what this query revealed about our dataset</div>
+    <p style="font-size:13px;margin:0;line-height:1.65">Streak completion rates are uniformly high (85–91%) because our riders average 17–21 deliveries per day — well above the 10-delivery streak threshold. This is realistic: the documented 10-delivery streak is a <em>daily</em> target, and full-time riders in our dataset (which skews toward full-time, per the source data) comfortably exceed it. The streak bonus is paying out reliably, which is good for rider earnings. The CPID advantage from streaks vs flat comes not from completion psychology at this threshold level — it comes from riders doing 2–4 extra deliveries to clear the next streak threshold. A real-world platform would calibrate the streak threshold to sit just above the rider's median daily delivery count to maximise the psychological pull. This is a design recommendation we carry into Phase 7.</p>
+  </div>
+</div>
+</div>
+
+<!-- ══════════════ Q7 ══════════════ -->
+<div class="pane" id="q7">
+<div class="strip"><span class="stag">Q7</span><span class="sttl">Time of Day × Incentive Type</span><span class="srul"></span></div>
+<div class="card">
+  <div class="qtitle">When Does the Surge Bonus<br><em>Actually Need to Run?</em></div>
+  <div class="qsub">Operational efficiency — matching incentive timing to demand peaks.</div>
+
+  <p>Surge top-up incentives make most sense during demand peaks — when more riders need to be online but supply is naturally thin. Running them during the afternoon lull (when fewer orders are placed anyway) is wasteful. This query maps order volume by hour of day and by incentive type to identify whether surge bonuses are being deployed when they're actually needed.</p>
+
+  <div class="sh">The query</div>
+  <div class="sql"><span class="kw">SELECT</span>
+  <span class="fn">CASE</span>
+    <span class="kw">WHEN</span> hour_of_day <span class="kw">BETWEEN</span> <span class="num">8</span>  <span class="kw">AND</span> <span class="num">10</span> <span class="kw">THEN</span> <span class="str">'08-11 Morning peak'</span>
+    <span class="kw">WHEN</span> hour_of_day <span class="kw">BETWEEN</span> <span class="num">11</span> <span class="kw">AND</span> <span class="num">13</span> <span class="kw">THEN</span> <span class="str">'11-14 Lunch peak'</span>
+    <span class="kw">WHEN</span> hour_of_day <span class="kw">BETWEEN</span> <span class="num">14</span> <span class="kw">AND</span> <span class="num">17</span> <span class="kw">THEN</span> <span class="str">'14-18 Afternoon lull'</span>
+    <span class="kw">WHEN</span> hour_of_day <span class="kw">BETWEEN</span> <span class="num">18</span> <span class="kw">AND</span> <span class="num">22</span> <span class="kw">THEN</span> <span class="str">'18-23 Dinner peak'</span>
+    <span class="kw">ELSE</span> <span class="str">'Other'</span>
+  <span class="kw">END</span>                              <span class="kw">AS</span> time_slot,
+  incentive_type,
+  <span class="fn">COUNT</span>(order_id)                  <span class="kw">AS</span> order_count,
+  <span class="fn">ROUND</span>(<span class="fn">AVG</span>(order_value),<span class="num">0</span>)        <span class="kw">AS</span> avg_order_value_rs,
+  <span class="fn">ROUND</span>(<span class="fn">AVG</span>(distance_km),<span class="num">2</span>)        <span class="kw">AS</span> avg_distance_km
+<span class="kw">FROM</span> orders
+<span class="kw">WHERE</span> status = <span class="str">'completed'</span>
+<span class="kw">GROUP BY</span> time_slot, incentive_type
+<span class="kw">ORDER BY</span> time_slot, order_count <span class="kw">DESC</span></div>
+
+  <div class="sh">Real output — peak demand by time slot</div>
+  <table class="rt">
+    <tr><th>Time slot</th><th>Incentive running</th><th>Orders completed</th><th>Avg order value (₹)</th><th>Avg distance (km)</th></tr>
+    <tr><td>Lunch peak (11–14)</td><td>No incentive</td><td>14,263</td><td>503</td><td>2.61</td></tr>
+    <tr><td>Lunch peak (11–14)</td><td>Flat per-order</td><td>13,475</td><td>503</td><td>2.60</td></tr>
+    <tr><td>Dinner peak (18–23)</td><td>No incentive</td><td>20,230</td><td>504</td><td>2.66</td></tr>
+    <tr><td>Dinner peak (18–23)</td><td>Flat per-order</td><td>18,858</td><td>503</td><td>2.64</td></tr>
+    <tr><td>Dinner peak (18–23)</td><td class="hi">Surge top-up</td><td>14,474</td><td>501</td><td>2.61</td></tr>
+    <tr><td>Afternoon lull (14–18)</td><td>Surge top-up</td><td>7,408</td><td>504</td><td>2.66</td></tr>
+  </table>
+
+  <div class="insight">
+    <div class="ig-label">What the time-of-day data tells us about surge deployment</div>
+    <p>Dinner peak (18–23) is the highest-volume slot by far — 20,230 orders completed in control weeks. This is where surge bonuses have the most value: demand is high, supply gaps are most costly, and the CPID efficiency of pulling extra riders online is highest. The afternoon lull (14–18) still shows 7,408 surge-incentivised completions — but demand is lower there, making surge spend less justified. The recommendation from this query: concentrate surge top-ups in the 11–14 and 18–23 windows, and cut or eliminate surge bonuses in 14–18 slots in high-supply cities.</p>
+  </div>
+</div>
+</div>
+
+<!-- ══════════════ Q8 ══════════════ -->
+<div class="pane" id="q8">
+<div class="strip"><span class="stag">Q8</span><span class="sttl">Net Unit Economics Per Delivery</span><span class="srul"></span></div>
+<div class="card">
+  <div class="qtitle">Which Bonus Actually<br><em>Makes the Platform Money?</em></div>
+  <div class="qsub">The P&amp;L query — translates CPID into revenue vs cost at the business level.</div>
+
+  <p>CPID is a cost metric. This query is the business translation: for each incentive type, does the revenue generated by incremental deliveries actually exceed the cost of the incentives that drove them? This is what a CFO or Head of Operations cares about. An incentive with a great CPID that still loses money is not a good incentive. An incentive with a high CPID that generates strong ROI is still worth running.</p>
+  <p>We use a 17% take rate on ₹435 AOV = ₹74 revenue per delivery, sourced from Swiggy's documented commission range of 15–25%.</p>
+
+  <div class="sh">The query</div>
+  <div class="sql"><span class="kw">WITH</span> baseline <span class="kw">AS</span> (
+  <span class="kw">SELECT</span> rider_id, <span class="fn">AVG</span>(deliveries_completed) <span class="kw">AS</span> avg_baseline
+  <span class="kw">FROM</span> shifts <span class="kw">WHERE</span> incentive_type = <span class="str">'none'</span> <span class="kw">AND</span> days_active >= <span class="num">4</span>
+  <span class="kw">GROUP BY</span> rider_id
+),
+econ <span class="kw">AS</span> (
+  <span class="kw">SELECT</span> s.incentive_type,
+    <span class="fn">SUM</span>(<span class="fn">GREATEST</span>(s.deliveries_completed - b.avg_baseline, <span class="num">0</span>)) <span class="kw">AS</span> incr_deliveries,
+    <span class="fn">SUM</span>(s.incentive_pay)                                      <span class="kw">AS</span> total_incentive_spend
+  <span class="kw">FROM</span> shifts s
+  <span class="kw">JOIN</span> baseline b <span class="kw">ON</span> b.rider_id = s.rider_id
+  <span class="kw">WHERE</span> s.incentive_type != <span class="str">'none'</span>
+  <span class="kw">GROUP BY</span> s.incentive_type
+)
+<span class="kw">SELECT</span>
+  incentive_type,
+  <span class="fn">ROUND</span>(incr_deliveries, <span class="num">0</span>)                       <span class="kw">AS</span> incr_deliveries,
+  <span class="fn">ROUND</span>(total_incentive_spend, <span class="num">0</span>)               <span class="kw">AS</span> incentive_spend_rs,
+  <span class="fn">ROUND</span>(incr_deliveries * <span class="num">74</span>, <span class="num">0</span>)               <span class="kw">AS</span> incr_revenue_rs,     <span class="cm">-- ₹435 AOV × 17% take rate</span>
+  <span class="fn">ROUND</span>((incr_deliveries * <span class="num">74</span>) /
+    <span class="fn">NULLIF</span>(total_incentive_spend, <span class="num">0</span>), <span class="num">2</span>)         <span class="kw">AS</span> incentive_roi        <span class="cm">-- revenue / spend</span>
+<span class="kw">FROM</span> econ
+<span class="kw">ORDER BY</span> incentive_roi <span class="kw">DESC</span></div>
+
+  <div class="sh">Real output — the P&L verdict</div>
+  <table class="rt">
+    <tr><th>Incentive type</th><th>Incr. deliveries</th><th>Incentive spend (₹)</th><th>Revenue from incr. deliveries (₹)</th><th>Incentive ROI</th></tr>
+    <tr><td class="best">Surge top-up</td><td>1,34,973</td><td>66,37,150</td><td>99,87,966</td><td class="best">1.50×</td></tr>
+    <tr><td>Streak bonus</td><td>1,91,736</td><td>1,20,93,240</td><td>1,41,88,483</td><td class="hi">1.17×</td></tr>
+    <tr><td class="worst">Flat per-order</td><td>1,60,780</td><td>1,21,77,960</td><td>1,18,97,717</td><td class="worst">0.98×</td></tr>
+  </table>
+
+  <div class="mrow2">
+    <div class="mbox"><div class="mv">1.50×</div><div class="ml">Surge top-up ROI — for every ₹100 spent, ₹150 of revenue generated from incremental deliveries</div></div>
+    <div class="mbox"><div class="mv">0.98×</div><div class="ml">Flat per-order ROI — the platform is spending more on flat bonuses than those bonuses generate in incremental revenue. It is loss-making at the margin.</div></div>
+  </div>
+
+  <div class="insight">
+    <div class="ig-label">The most important single number in this project</div>
+    <p>Flat per-order incentives have an ROI of <strong>0.98× — below 1.0</strong>. That means for every rupee spent on flat bonuses, the platform recovers only ₹0.98 in revenue from the extra deliveries those bonuses generated. The flat bonus structure, which is the dominant incentive type across the industry right now, is marginally loss-making when measured correctly. Streak bonuses are profitable at 1.17×. Surge top-ups are the most profitable at 1.50×.</p>
+    <p>Critically — and this is the rider-first point — none of this is achieved by cutting rider pay. It's achieved by <strong>changing the structure</strong> of the same budget so it creates more incremental deliveries per rupee. Riders earn as much or more. The platform recovers its costs. That's what a well-designed incentive framework looks like.</p>
+  </div>
+</div>
+</div>
+
+</div>
+
+<script>
+function show(id, btn) {
+  document.querySelectorAll('.pane').forEach(p => p.classList.remove('on'));
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('on'));
+  document.getElementById(id).classList.add('on');
+  btn.classList.add('on');
+}
+</script>

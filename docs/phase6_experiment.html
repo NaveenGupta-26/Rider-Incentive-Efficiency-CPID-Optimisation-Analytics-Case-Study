@@ -1,0 +1,363 @@
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;1,400&family=Plus+Jakarta+Sans:wght@400;500;600&display=swap');
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --ink:#1c1c1c;--ink2:#3d3d3d;--ink3:#6b6b6b;
+  --rule:#e5e3de;--bg:#f8f7f4;--bg2:#f0ede8;--page:#fff;
+  --red:#c0392b;--blue:#1a4fad;--green:#1a6b3c;--amber:#b06a00;
+  --sans:'Plus Jakarta Sans',sans-serif;--serif:'Lora',serif;
+}
+body{background:var(--bg);font-family:var(--sans);color:var(--ink)}
+.doc{max-width:720px;margin:0 auto;padding:1.5rem 0 3rem}
+.tabs{display:flex;gap:5px;margin-bottom:1.5rem;flex-wrap:wrap}
+.tab{font-size:12px;font-weight:500;padding:6px 14px;border-radius:2px;cursor:pointer;
+     border:0.5px solid var(--rule);color:var(--ink3);background:transparent}
+.tab.on{background:var(--ink);color:#fff;border-color:var(--ink)}
+.pane{display:none}.pane.on{display:block}
+.strip{display:flex;align-items:center;gap:10px;margin:0 0 1.25rem}
+.stag{font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;background:var(--ink);color:#fff;padding:3px 10px;border-radius:2px;flex-shrink:0}
+.sttl{font-size:11px;color:var(--ink3);letter-spacing:.08em;text-transform:uppercase}
+.srul{flex:1;height:0.5px;background:var(--rule)}
+.card{background:var(--page);border:0.5px solid var(--rule);border-radius:3px;padding:1.75rem 2rem;margin-bottom:1rem}
+.qtitle{font-family:var(--serif);font-size:22px;line-height:1.2;margin-bottom:3px}
+.qtitle em{font-style:italic;color:var(--blue)}
+.qsub{font-size:11px;color:var(--ink3);letter-spacing:.08em;text-transform:uppercase;margin-bottom:1.25rem;padding-bottom:1.25rem;border-bottom:0.5px solid var(--rule)}
+.sh{font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--ink3);margin:1.5rem 0 .5rem}
+p{font-size:13px;line-height:1.8;color:var(--ink2);margin-bottom:.875rem}
+p:last-child{margin-bottom:0}
+p strong{font-weight:600;color:var(--ink)}
+
+/* Arm cards */
+.arm-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:1.25rem 0}
+.arm-card{border-radius:3px;padding:1rem;border:0.5px solid var(--rule)}
+.arm-head{font-size:10px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;margin-bottom:6px}
+.arm-title{font-size:13px;font-weight:600;color:var(--ink);margin-bottom:6px}
+.arm-body{font-size:12px;color:var(--ink2);line-height:1.55}
+.arm-num{font-family:var(--serif);font-size:17px;color:var(--ink);margin-top:6px}
+.arm-sub{font-size:10px;color:var(--ink3)}
+
+/* Result rows */
+.rrow{display:flex;align-items:flex-start;gap:14px;padding:11px 0;border-bottom:0.5px solid var(--rule)}
+.rrow:last-child{border-bottom:none}
+.rl{font-size:11px;font-weight:600;color:var(--ink3);min-width:160px;flex-shrink:0;padding-top:1px;text-transform:uppercase;letter-spacing:.04em}
+.rv{font-size:13px;color:var(--ink2);flex:1;line-height:1.6}
+.rv strong{font-weight:600;color:var(--ink)}
+.pass{color:var(--green);font-weight:600}
+.fail{color:var(--red);font-weight:600}
+.warn{color:var(--amber);font-weight:600}
+
+/* MDE table */
+.mde-table{width:100%;border-collapse:collapse;font-size:12px;margin:1rem 0}
+.mde-table th{text-align:left;font-size:10px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--ink3);padding:6px 10px;border-bottom:1px solid var(--rule);background:var(--bg2)}
+.mde-table td{padding:8px 10px;border-bottom:0.5px solid var(--rule);color:var(--ink2)}
+.mde-table tr.highlight td{background:#f0f5ff;font-weight:500;color:var(--ink)}
+.mde-table tr:last-child td{border-bottom:none}
+
+/* Callouts */
+.insight{border-left:3px solid var(--blue);background:#f0f5ff;padding:.875rem 1.125rem;border-radius:0 3px 3px 0;margin:1.25rem 0}
+.ig-l{font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--blue);margin-bottom:5px}
+.warn-box{border-left:3px solid var(--amber);background:#fff8f0;padding:.875rem 1.125rem;border-radius:0 3px 3px 0;margin:1.25rem 0}
+.wl{font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--amber);margin-bottom:5px}
+.gr-box{border-left:3px solid var(--green);background:#edf7f1;padding:.875rem 1.125rem;border-radius:0 3px 3px 0;margin:1.25rem 0}
+.gl{font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--green);margin-bottom:5px}
+
+/* Phase timeline */
+.timeline{margin:1.25rem 0}
+.tl-row{display:flex;gap:14px;margin-bottom:14px}
+.tl-left{display:flex;flex-direction:column;align-items:center;flex-shrink:0;width:40px}
+.tl-dot{width:12px;height:12px;border-radius:50%;flex-shrink:0;margin-top:3px}
+.tl-line{width:1px;flex:1;background:var(--rule);margin-top:2px}
+.tl-body{flex:1;padding-bottom:6px}
+.tl-week{font-size:10px;font-weight:600;font-family:'Courier New',monospace;color:var(--ink3);margin-bottom:3px;text-transform:uppercase;letter-spacing:.06em}
+.tl-action{font-size:13px;font-weight:600;color:var(--ink);margin-bottom:3px}
+.tl-detail{font-size:12px;color:var(--ink3);line-height:1.5}
+
+/* Results sim */
+.sim-table{width:100%;border-collapse:collapse;font-size:12px;margin:1rem 0}
+.sim-table th{text-align:left;font-size:10px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--ink3);padding:6px 10px;border-bottom:1px solid var(--rule);background:var(--bg2)}
+.sim-table td{padding:8px 10px;border-bottom:0.5px solid var(--rule);color:var(--ink2)}
+.sim-table tr:last-child td{border-bottom:none}
+.sim-table .winner td{background:#edf7f1;font-weight:500}
+
+/* Rollout */
+.rollout-step{border:0.5px solid var(--rule);border-radius:3px;padding:.875rem 1rem;margin-bottom:.75rem;display:flex;gap:14px;align-items:flex-start}
+.rs-num{width:26px;height:26px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:600;margin-top:1px}
+.rs-body .rs-title{font-size:13px;font-weight:600;color:var(--ink);margin-bottom:4px}
+.rs-body .rs-detail{font-size:13px;color:var(--ink2);line-height:1.65}
+</style>
+
+<div class="doc">
+
+<div class="tabs">
+  <button class="tab on"  onclick="sw('design',this)">Experiment Design</button>
+  <button class="tab" onclick="sw('sample',this)">Sample Size</button>
+  <button class="tab" onclick="sw('sutva',this)">SUTVA + Cluster</button>
+  <button class="tab" onclick="sw('guardrail',this)">Guard Rails</button>
+  <button class="tab" onclick="sw('results',this)">Simulated Results</button>
+  <button class="tab" onclick="sw('rollout',this)">Rollout Plan</button>
+</div>
+
+<!-- ══ DESIGN ══ -->
+<div class="pane on" id="design">
+<div class="strip"><span class="stag">06</span><span class="sttl">A/B Experiment Design</span><span class="srul"></span></div>
+<div class="card">
+  <div class="qtitle">The Full Experiment Spec:<br><em>Three Arms, Five Weeks, One Clear Winner</em></div>
+  <div class="qsub">Phase 6 · 3-arm controlled experiment · Cluster randomisation · Rider-first guard rails</div>
+
+  <p>The SQL and statistical analysis told us which incentive type performs best in our historical data. But historical data has a limitation: riders in different incentive groups weren't chosen randomly — the platform already assigned them based on policies. Before recommending a full budget shift, we need a controlled experiment where assignment is random, conditions are isolated, and we can make a genuinely causal claim about which bonus structure works better.</p>
+  <p>Here is the complete experiment design — written the way you'd present it to a Head of Growth before getting approval to run it.</p>
+
+  <div class="sh">The three arms</div>
+  <div class="arm-grid">
+    <div class="arm-card" style="border-color:#e5e3de">
+      <div class="arm-head" style="color:var(--ink3)">Control</div>
+      <div class="arm-title">Status quo — flat ₹12/delivery</div>
+      <div class="arm-body">Current dominant incentive structure. Every completed delivery earns a flat ₹12 bonus on top of base pay. No threshold, no timing requirement.</div>
+      <div class="arm-num">₹60.8</div>
+      <div class="arm-sub">median CPID (observed baseline)</div>
+    </div>
+    <div class="arm-card" style="border-color:#b5d4f4;background:#f8fbff">
+      <div class="arm-head" style="color:var(--blue)">Variant A</div>
+      <div class="arm-title">Streak bonus — ₹120 per 10 deliveries</div>
+      <div class="arm-body">Complete 10 deliveries in a day, earn ₹120. Pays ₹12/delivery on completion — same rate as flat, but only for completers. Exploits loss-aversion psychology.</div>
+      <div class="arm-num">₹53.3</div>
+      <div class="arm-sub">median CPID (observed, 12.4% better than control)</div>
+    </div>
+    <div class="arm-card" style="border-color:#9FE1CB;background:#f5fdf9">
+      <div class="arm-head" style="color:var(--green)">Variant B ★</div>
+      <div class="arm-title">Hybrid surge — ₹8/delivery + ₹35/peak hour</div>
+      <div class="arm-body">Reduced flat of ₹8/delivery plus ₹35/online hour during peak windows (11–14, 18–23). Rider earnings HIGHER than control (₹6,262 vs ₹5,901/week). Acts at Stage 1 of the funnel.</div>
+      <div class="arm-num">₹46.0</div>
+      <div class="arm-sub">median CPID (observed, 24.4% better than control)</div>
+    </div>
+  </div>
+
+  <div class="warn-box">
+    <div class="wl">Why Variant B uses a hybrid model, not pure surge</div>
+    <p style="font-size:13px;margin:0">When we simulated pure surge top-up (₹17/hr all hours), rider earnings dropped ₹344/week compared to the control — the rider-first guard rail failed. The reason: surge top-up pays per online hour, but our riders average 51 hours online and only 104 deliveries/week. At ₹17/hr that's ₹867 in incentives vs ₹1,248 under the flat model. The hybrid fix — ₹8/delivery reduced flat + ₹35/peak-hour surge — gives riders ₹6,262/week: ₹361 more than the control while still improving CPID. Both platform and riders win.</p>
+  </div>
+
+  <div class="sh">Core experiment parameters</div>
+  <div class="rrow"><span class="rl">Primary metric</span><span class="rv"><strong>CPID (₹ per incremental delivery)</strong> — the North Star metric of the entire project</span></div>
+  <div class="rrow"><span class="rl">Secondary metrics</span><span class="rv">Delivery coverage rate (%) · Avg incremental deliveries/week · Incentive ROI</span></div>
+  <div class="rrow"><span class="rl">Guard rail metrics</span><span class="rv"><strong>Rider avg weekly earnings — must not fall below control by more than 3%.</strong> Also: rider churn rate week-over-week, rider satisfaction survey score</span></div>
+  <div class="rrow"><span class="rl">Randomisation unit</span><span class="rv"><strong>City</strong> (not individual rider) — explained in the SUTVA tab</span></div>
+  <div class="rrow"><span class="rl">Significance level</span><span class="rv">α = 0.05 (two-tailed)</span></div>
+  <div class="rrow"><span class="rl">Statistical power</span><span class="rv">80% (β = 0.20) — industry standard for operational experiments</span></div>
+  <div class="rrow"><span class="rl">MDE</span><span class="rv">15% improvement in median CPID (₹24.6 absolute reduction from ₹164.1 mean)</span></div>
+  <div class="rrow"><span class="rl">Required duration</span><span class="rv"><strong>5 weeks</strong> — see sample size tab for calculation</span></div>
+  <div class="rrow"><span class="rl">Blinding</span><span class="rv">Riders know their bonus structure (transparent incentive design). Analysts evaluating results are blinded to city-arm assignments until lock.</span></div>
+</div>
+</div>
+
+<!-- ══ SAMPLE SIZE ══ -->
+<div class="pane" id="sample">
+<div class="strip"><span class="stag">Sample Size</span><span class="sttl">Power Analysis + Duration Calculation</span><span class="srul"></span></div>
+<div class="card">
+  <div class="qtitle">How Long Do We<br><em>Need to Run This?</em></div>
+  <div class="qsub">Two-sample t-test power analysis · α = 0.05 · Power = 80% · Real baseline stats</div>
+
+  <p>Sample size calculation answers one question: if the true effect is X, how many observations do we need to detect it reliably? We use the formula for comparing two continuous means (CPID is a continuous variable), with the standard deviation from our actual flat-bonus data as the reference.</p>
+
+  <div class="sh">Baseline statistics used in the calculation</div>
+  <div class="rrow"><span class="rl">Control mean CPID</span><span class="rv"><strong>₹164.1</strong> (mean of flat per-order CPID distribution across 6,164 rider-weeks)</span></div>
+  <div class="rrow"><span class="rl">Control std dev</span><span class="rv"><strong>₹549.9</strong> — high because CPID is right-skewed (some weeks have very low incrementality, pushing CPID high)</span></div>
+  <div class="rrow"><span class="rl">z (α/2 = 0.025)</span><span class="rv"><strong>1.96</strong></span></div>
+  <div class="rrow"><span class="rl">z (β = 0.20)</span><span class="rv"><strong>0.842</strong></span></div>
+  <div class="rrow"><span class="rl">Formula</span><span class="rv">n = 2 × ((z_α/2 + z_β)² × σ²) / δ²</span></div>
+
+  <div class="sh">MDE sensitivity — three scenarios</div>
+  <table class="mde-table">
+    <tr><th>MDE</th><th>Absolute delta (₹)</th><th>Sample per arm</th><th>Riders per arm</th><th>Weeks needed</th><th>Practical?</th></tr>
+    <tr><td>10%</td><td>₹16.4</td><td>17,626 rider-weeks</td><td>1,786</td><td>10 weeks</td><td>Possible but long</td></tr>
+    <tr class="highlight"><td><strong>15% ← target</strong></td><td><strong>₹24.6</strong></td><td><strong>7,834 rider-weeks</strong></td><td><strong>1,786</strong></td><td><strong>5 weeks</strong></td><td><strong>Recommended ✓</strong></td></tr>
+    <tr><td>20%</td><td>₹32.8</td><td>4,407 rider-weeks</td><td>1,786</td><td>3 weeks</td><td>Too short (seasonal noise)</td></tr>
+  </table>
+
+  <div class="insight">
+    <div class="ig-l">Why 15% MDE and 5 weeks is the right call</div>
+    <p>10% MDE requires 10 weeks — long enough that seasonal changes (festival season, weather) start contaminating the signal. 20% MDE needs only 3 weeks but means we'd only detect very large effects, missing modest but real improvements that are worth acting on. 5 weeks at 15% MDE balances detection sensitivity with experimental feasibility. The observed effect sizes in our data are 12–24%, so a 15% MDE threshold means both variants have a real chance of being declared a winner.</p>
+  </div>
+
+  <div class="sh">Why the high standard deviation is honest, not a problem</div>
+  <p>The std dev of ₹549.9 looks alarming for a metric with a median of ₹60.8. This is the right-skew problem: some rider-weeks show CPID in the thousands because the rider happened to generate almost zero incremental deliveries in an incentive week (illness, personal reasons). These are real observations, not errors. The high std dev means we need more observations to detect a given effect size — which is why 5 weeks (not 2–3) is the honest recommendation. An analyst who fakes a low std dev to justify a shorter experiment is setting up a false positive.</p>
+</div>
+</div>
+
+<!-- ══ SUTVA ══ -->
+<div class="pane" id="sutva">
+<div class="strip"><span class="stag">SUTVA</span><span class="sttl">Network Effects + Cluster Randomisation</span><span class="srul"></span></div>
+<div class="card">
+  <div class="qtitle">The Problem With Rider-Level<br><em>Randomisation</em></div>
+  <div class="qsub">SUTVA violation · Spillover · Cluster randomisation at city level</div>
+
+  <p>The most technically sophisticated part of this experiment design is also the part most portfolios get wrong. The temptation is to randomise at the individual rider level — assign each rider randomly to Control, Variant A, or Variant B. Simple, clean, maximum statistical power. But it has a fundamental flaw.</p>
+
+  <div class="sh">What SUTVA is and why it matters here</div>
+  <p>SUTVA stands for the Stable Unit Treatment Value Assumption. It states that one person's treatment should not affect another person's outcome. In a drug trial, giving Patient A the treatment doesn't change whether Patient B responds to theirs. SUTVA is satisfied.</p>
+  <p>In our experiment, SUTVA is <strong>violated</strong> if we randomise at the rider level. Here's why: Rider A in Mumbai is assigned to Variant B (hybrid surge) and comes online 2 hours earlier because the peak-hour bonus is attractive. Rider B in Mumbai is assigned to Control (flat per-order). Because Rider A is online and accepting orders during those extra 2 hours, there are fewer orders left for Rider B. Rider B's measured "incremental deliveries" drops — not because of anything about flat bonuses, but because Rider A took orders that would have gone to Rider B.</p>
+  <p>This spillover effect contaminates both the control and treatment measurements. The experiment would understate the true benefit of Variant B and potentially create spurious negative effects on the control arm.</p>
+
+  <div class="sh">The fix — cluster randomisation at city level</div>
+  <div class="rrow"><span class="rl">Randomisation unit</span><span class="rv"><strong>City</strong> — each entire city is assigned to one arm. All riders in Mumbai get the same incentive structure. All riders in Pune get a different one.</span></div>
+  <div class="rrow"><span class="rl">City assignments</span><span class="rv">
+    <strong>Control:</strong> Mumbai, Pune, Surat<br>
+    <strong>Variant A:</strong> Delhi, Jaipur, Bhopal<br>
+    <strong>Variant B:</strong> Bengaluru, Ahmedabad, Coimbatore
+  </span></div>
+  <div class="rrow"><span class="rl">Why these cities</span><span class="rv">Each arm gets one Tier-1, one Tier-2, one Tier-3 city — balanced by city tier so the comparison isn't confounded by supply saturation differences</span></div>
+  <div class="rrow"><span class="rl">Riders per arm</span><span class="rv">Control: ~599 (Mumbai 238 + Pune 176 + Surat 123) · Variant A: ~554 · Variant B: ~626 — roughly balanced</span></div>
+
+  <div class="warn-box">
+    <div class="wl">The trade-off of cluster randomisation</div>
+    <p style="font-size:13px;margin:0">Cluster randomisation eliminates spillover but reduces statistical power because cities are not perfectly interchangeable — Mumbai has 238 riders and a different order density than Bhopal with 126 riders. The variance between cities adds noise. To compensate, we use a paired analysis: compare cities in each arm to matched baseline cities from the pre-experiment period, rather than just comparing arm averages. This is the Difference-in-Differences approach applied at city level.</p>
+  </div>
+
+  <div class="insight">
+    <div class="ig-l">Why bringing up SUTVA in an interview immediately separates you</div>
+    <p>Most A/B test descriptions in portfolios say "randomise riders to three arms and compare." Asking "but wait — do riders in different arms compete for the same orders?" is a question that signals you understand that experiments in marketplace and platform contexts are fundamentally different from simple product A/B tests. Every delivery platform, ride-sharing company, and marketplace has this problem. Knowing the name (SUTVA violation), the mechanism (spillover), and the fix (cluster randomisation) is a senior-level signal.</p>
+  </div>
+</div>
+</div>
+
+<!-- ══ GUARD RAILS ══ -->
+<div class="pane" id="guardrail">
+<div class="strip"><span class="stag">Guard Rails</span><span class="sttl">What Stops the Experiment Early</span><span class="srul"></span></div>
+<div class="card">
+  <div class="qtitle">The Lines We<br><em>Do Not Cross</em></div>
+  <div class="qsub">Three guard rail metrics · Early stopping rules · Rider-first commitment</div>
+
+  <p>Guard rails are metrics that, if breached, stop the experiment regardless of what the primary metric shows. A variant can have perfect CPID and still fail if it harms riders, collapses supply, or creates a satisfaction crisis that takes months to recover from. Here are the three guard rails and the exact thresholds that trigger a stop.</p>
+
+  <div class="sh">Guard rail 1 — rider weekly earnings</div>
+  <div class="rrow"><span class="rl">What we measure</span><span class="rv">Average weekly take-home earnings per rider (base pay + incentive) in each arm</span></div>
+  <div class="rrow"><span class="rl">Threshold</span><span class="rv"><strong>Must not fall below control arm by more than 3%</strong> (₹5,901 × 0.97 = ₹5,724 floor)</span></div>
+  <div class="rrow"><span class="rl">Current Var B result</span><span class="rv"><span class="pass">₹6,262/week — ₹361 above control ✓</span> The hybrid surge model was specifically designed to exceed this threshold</span></div>
+  <div class="rrow"><span class="rl">Why 3%?</span><span class="rv">A 3% earnings drop on a ₹5,901 base = ₹177/week. At the documented rider expense structure (₹200–₹350/day fuel), even a ₹177 weekly cut can push a rider's net into negative territory. Zero tolerance on earnings cuts is the only defensible position given the AIF finding that 68% of riders already say expenses exceed earnings.</span></div>
+
+  <div class="sh">Guard rail 2 — delivery coverage rate</div>
+  <div class="rrow"><span class="rl">What we measure</span><span class="rv">% of platform orders that receive a rider assignment within 10 minutes</span></div>
+  <div class="rrow"><span class="rl">Threshold</span><span class="rv"><strong>Must not fall below 90% of the pre-experiment coverage rate in any experimental city</strong></span></div>
+  <div class="rrow"><span class="rl">Why this matters</span><span class="rv">An incentive structure that improves CPID by reducing supply (fewer riders online) is not a win — it's just moving the cost from the incentive budget to unfulfilled orders and customer churn</span></div>
+
+  <div class="sh">Guard rail 3 — rider churn rate</div>
+  <div class="rrow"><span class="rl">What we measure</span><span class="rv">% of active riders in each arm who go inactive (zero orders) for 2+ consecutive weeks during the experiment</span></div>
+  <div class="rrow"><span class="rl">Threshold</span><span class="rv"><strong>Must not exceed 1.5× the control arm churn rate</strong></span></div>
+  <div class="rrow"><span class="rl">Why this matters</span><span class="rv">Churn is the delayed signal. A rider might not quit in week 1 of a new incentive structure — but if the structure is creating stress or income insecurity, you'll see exits in weeks 3–5. Monitoring it throughout (not just at end) is essential.</span></div>
+
+  <div class="sh">Weekly check-in protocol</div>
+  <div class="rrow"><span class="rl">Week 1</span><span class="rv">Confirm arm assignments. Baseline guard rail metrics recorded. No stopping decisions yet.</span></div>
+  <div class="rrow"><span class="rl">Weeks 2–4</span><span class="rv">Weekly guard rail review. Any arm breaching earnings or coverage threshold: <strong>pause that arm, revert to control, investigate before restarting.</strong></span></div>
+  <div class="rrow"><span class="rl">Week 5 (final)</span><span class="rv">Primary metric analysis. Statistical test. Winner declaration only if all guard rails are green across all 5 weeks.</span></div>
+
+  <div class="gr-box">
+    <div class="gl">Why Variant B was redesigned before this tab was written</div>
+    <p style="font-size:13px;margin:0">When we simulated the pure surge top-up (₹17/hr), rider earnings dropped ₹344/week — failing the earnings guard rail immediately. Rather than ignoring this finding or burying it, we redesigned Variant B as a hybrid model (₹8/delivery + ₹35/peak hour) that passes the guard rail with ₹361 headroom above the control. That redesign happened because the guard rail forced us to think about rider welfare before finalising the experiment design. This is the right order of operations — and it's worth explaining explicitly when presenting this project.</p>
+  </div>
+</div>
+</div>
+
+<!-- ══ RESULTS ══ -->
+<div class="pane" id="results">
+<div class="strip"><span class="stag">Simulated Results</span><span class="sttl">What the Experiment Would Show</span><span class="srul"></span></div>
+<div class="card">
+  <div class="qtitle">If We Ran This Tomorrow,<br><em>Here Is What We Would Find</em></div>
+  <div class="qsub">Simulated on real data · 4 weeks × 1,786 riders per arm · Statistical test results</div>
+
+  <p>We simulated the 5-week experiment using the actual data — drawing samples from the corresponding incentive-type weeks for each arm. These are the numbers a growth analyst would present in the experiment readout meeting at the end of week 5.</p>
+
+  <div class="sh">Experiment results summary</div>
+  <table class="sim-table">
+    <tr><th>Arm</th><th>CPID (₹)</th><th>Incr del/wk</th><th>Rider earnings/wk (₹)</th><th>ROI</th><th>Guard rails</th><th>Winner?</th></tr>
+    <tr><td>Control — flat ₹12/del</td><td>₹60.7</td><td>16.7</td><td>₹5,928</td><td>0.98×</td><td>Baseline</td><td>—</td></tr>
+    <tr><td>Variant A — streak ₹120/10del</td><td>₹53.3</td><td>19.6</td><td>₹6,063</td><td>1.17×</td><td class="pass">All green ✓</td><td>2nd</td></tr>
+    <tr class="winner"><td><strong>Variant B — hybrid surge</strong></td><td><strong>₹46.0</strong></td><td>17.7</td><td><strong>₹6,262</strong></td><td><strong>1.50×</strong></td><td class="pass">All green ✓</td><td><strong>★ Winner</strong></td></tr>
+  </table>
+
+  <div class="sh">Statistical significance</div>
+  <div class="rrow"><span class="rl">Control vs Var A</span><span class="rv"><span class="pass">p = 0.0122 — significant ✓</span> &nbsp; t = 2.507. CPID improvement is real, not noise.</span></div>
+  <div class="rrow"><span class="rl">Control vs Var B</span><span class="rv"><span class="pass">p = 0.0105 — significant ✓</span> &nbsp; t = 2.559. Hybrid surge improvement is also real.</span></div>
+  <div class="rrow"><span class="rl">Var A vs Var B</span><span class="rv">Variant B beats Variant A by ₹7.3 in median CPID. Both are significantly better than control. Variant B declared winner.</span></div>
+
+  <div class="sh">Guard rail status at experiment end</div>
+  <div class="rrow"><span class="rl">Var A earnings</span><span class="rv"><span class="pass">₹6,063 — ₹135 above control ✓ &nbsp; (threshold: ₹5,724)</span></span></div>
+  <div class="rrow"><span class="rl">Var B earnings</span><span class="rv"><span class="pass">₹6,262 — ₹361 above control ✓ &nbsp; Riders in Variant B earned more, not less</span></span></div>
+  <div class="rrow"><span class="rl">Coverage rate</span><span class="rv"><span class="pass">No arm showed coverage drop &gt;10% from baseline ✓</span></span></div>
+  <div class="rrow"><span class="rl">Rider churn</span><span class="rv"><span class="pass">Churn rate stable across all arms — no cliff effect during the experiment window ✓</span></span></div>
+
+  <div class="insight">
+    <div class="ig-l">The headline for the readout meeting</div>
+    <p>The hybrid surge model (Variant B) reduced CPID by 24.4% versus the status-quo flat bonus, while increasing rider weekly earnings by ₹334. Platform efficiency improved. Rider welfare improved. The two are not in conflict — they were only in conflict under the old incentive design. This is the recommendation the CFO, Head of Operations, and Rider Relations lead can all agree on.</p>
+  </div>
+</div>
+</div>
+
+<!-- ══ ROLLOUT ══ -->
+<div class="pane" id="rollout">
+<div class="strip"><span class="stag">Rollout</span><span class="sttl">3-Phase Deployment Plan</span><span class="srul"></span></div>
+<div class="card">
+  <div class="qtitle">From Experiment Winner<br><em>to Platform-Wide Policy</em></div>
+  <div class="qsub">3-phase rollout · Starting with Tier-2/3 · Full deployment in 12 weeks</div>
+
+  <p>Declaring a winner is not the finish line. Rolling out a new incentive structure to 350,000+ riders across 500+ cities without creating a supply crisis requires a staged approach. Here is the 3-phase plan.</p>
+
+  <div class="timeline">
+
+    <div class="tl-row">
+      <div class="tl-left">
+        <div class="tl-dot" style="background:var(--amber)"></div>
+        <div class="tl-line"></div>
+      </div>
+      <div class="tl-body">
+        <div class="tl-week">Phase 1 — Weeks 1–3 post-experiment</div>
+        <div class="tl-action">Tier-2 and Tier-3 cities first</div>
+        <div class="tl-detail">Roll out hybrid surge to all Tier-2 (Pune, Jaipur, Lucknow, Ahmedabad) and Tier-3 cities. These cities have the best CPID efficiency and the most room for supply response. Risk is lower here — if the rollout has unexpected issues, the affected rider base is smaller and the GMV impact is manageable. Run for 3 weeks and confirm CPID and earnings match experiment results before proceeding.</div>
+      </div>
+    </div>
+
+    <div class="tl-row">
+      <div class="tl-left">
+        <div class="tl-dot" style="background:var(--blue)"></div>
+        <div class="tl-line"></div>
+      </div>
+      <div class="tl-body">
+        <div class="tl-week">Phase 2 — Weeks 4–8</div>
+        <div class="tl-action">Tier-1 cities with modified parameters</div>
+        <div class="tl-detail">Mumbai, Delhi, Bengaluru require a different calibration. Tier-1 riders are at higher daily delivery volumes — the peak-hour surge timing window needs to be optimised for the specific demand patterns in each metro. Run a mini-experiment within each Tier-1 city to calibrate the peak-hour rate (₹35/hr may need adjustment for Mumbai's 16-hour workday density). Confirm earnings guard rail holds before full deployment.</div>
+      </div>
+    </div>
+
+    <div class="tl-row">
+      <div class="tl-left">
+        <div class="tl-dot" style="background:var(--green)"></div>
+        <div class="tl-line" style="background:transparent"></div>
+      </div>
+      <div class="tl-body">
+        <div class="tl-week">Phase 3 — Weeks 9–12</div>
+        <div class="tl-action">Full platform deployment + monitoring dashboard live</div>
+        <div class="tl-detail">Platform-wide rollout. The Phase 5 dashboard (Tableau/Looker) goes live with all guard rail KPI tiles active. Weekly review for the first 4 weeks post-full-deployment. Specifically watch: cliff effect in weeks immediately after any city transitions from old to new structure, and any rider satisfaction survey signals from the Tier-1 cities where the workday is most intense.</div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="sh">What to do with always-on riders during rollout</div>
+  <p>Veterans (12+ months, identified as always-on from Phase 3 Q3) are a special case. The hybrid surge model is less efficient for them because they're already online maximum hours — the peak-hour bonus doesn't pull them online longer. For this segment, the recommendation is a tenure-based bonus instead: a monthly completion bonus (e.g. ₹3,000 for 2,000+ deliveries/month) that rewards sustained high performance without trying to change behaviour that doesn't need changing. This keeps their earnings stable while redirecting the per-delivery flat spend toward more elastic riders.</p>
+
+  <div class="gr-box">
+    <div class="gl">The single most important thing to monitor post-rollout</div>
+    <p style="font-size:13px;margin:0">Rider satisfaction survey scores in weeks 2–4 post-rollout. Earnings improving is necessary but not sufficient — riders also care about predictability. The old flat bonus was simple and predictable: ₹12/delivery, every delivery, always. The hybrid surge model is more complex: some hours pay more, some less. If rider confusion about their pay structure increases, satisfaction scores will drop even if total earnings are higher. The rollout communications must explain the new structure clearly, in the local language, before the change goes live. This is not an analytics problem — it's a change management problem. Flag it before it becomes a rider relations crisis.</p>
+  </div>
+</div>
+</div>
+
+</div>
+<script>
+function sw(id,btn){
+  document.querySelectorAll('.pane').forEach(p=>p.classList.remove('on'));
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('on'));
+  document.getElementById(id).classList.add('on');
+  btn.classList.add('on');
+}
+</script>

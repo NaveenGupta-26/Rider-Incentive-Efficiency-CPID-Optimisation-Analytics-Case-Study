@@ -1,0 +1,549 @@
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;1,400&family=Plus+Jakarta+Sans:wght@400;500;600&display=swap');
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --ink:#1c1c1c;--ink2:#3d3d3d;--ink3:#6b6b6b;
+  --rule:#e5e3de;--bg:#f8f7f4;--bg2:#f0ede8;
+  --page:#ffffff;
+  --red:#c0392b;--blue:#1a4fad;--green:#1a6b3c;--amber:#b06a00;
+  --sans:'Plus Jakarta Sans',sans-serif;--serif:'Lora',serif;
+}
+body{background:var(--bg);font-family:var(--sans);color:var(--ink);padding:0}
+.doc{max-width:680px;margin:0 auto;padding:1.5rem 0 3rem}
+
+.section-strip{
+  display:flex;align-items:center;gap:10px;margin:2.5rem 0 1.25rem;
+}
+.s-tag{
+  font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;
+  background:var(--ink);color:#fff;padding:3px 10px;border-radius:2px;flex-shrink:0;
+}
+.s-title{font-size:11px;color:var(--ink3);letter-spacing:.08em;text-transform:uppercase;}
+.s-rule{flex:1;height:0.5px;background:var(--rule);}
+
+.card{
+  background:var(--page);border:0.5px solid var(--rule);
+  border-radius:3px;padding:2rem 2.25rem;margin-bottom:1rem;
+}
+
+.big-title{
+  font-family:var(--serif);font-size:26px;line-height:1.2;
+  color:var(--ink);margin-bottom:4px;
+}
+.big-title em{color:var(--red);font-style:italic;}
+.eyebrow{
+  font-size:11px;color:var(--ink3);letter-spacing:.1em;
+  text-transform:uppercase;margin-bottom:1.5rem;
+  padding-bottom:1.25rem;border-bottom:0.5px solid var(--rule);
+}
+.stamp-row{
+  display:flex;flex-wrap:wrap;gap:8px;margin-bottom:1.75rem;
+}
+.stamp{
+  font-size:11px;border:0.5px solid var(--rule);
+  border-radius:2px;padding:3px 8px;color:var(--ink3);
+}
+
+p{font-size:14px;line-height:1.8;color:var(--ink2);margin-bottom:1rem;}
+p:last-child{margin-bottom:0}
+p strong{font-weight:600;color:var(--ink);}
+
+.section-h{
+  font-size:11px;font-weight:600;letter-spacing:.1em;
+  text-transform:uppercase;color:var(--ink3);
+  margin:1.75rem 0 .6rem;
+}
+
+.highlight-box{
+  border-left:3px solid var(--red);background:var(--bg2);
+  padding:.875rem 1.125rem;border-radius:0 3px 3px 0;margin:1.25rem 0;
+}
+.hl-label{font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--red);margin-bottom:5px;}
+.hl-big{font-family:var(--serif);font-size:21px;color:var(--ink);line-height:1.25;}
+.hl-note{font-size:12px;color:var(--ink3);margin-top:4px;}
+
+.two-up{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:1.25rem 0;}
+.mini-stat{background:var(--bg2);border-radius:3px;padding:.875rem 1rem;}
+.mini-stat .mv{font-family:var(--serif);font-size:19px;color:var(--ink);}
+.mini-stat .ml{font-size:12px;color:var(--ink3);margin-top:3px;line-height:1.4;}
+
+.problem-block{
+  border:0.5px solid var(--rule);border-radius:3px;padding:1rem 1.125rem;margin-bottom:.75rem;
+}
+.pb-num{font-size:10px;font-weight:600;color:var(--ink3);letter-spacing:.08em;text-transform:uppercase;margin-bottom:4px;}
+.pb-title{font-size:13px;font-weight:600;color:var(--ink);margin-bottom:5px;}
+.pb-body{font-size:13px;line-height:1.65;color:var(--ink2);}
+
+.scope-note{
+  border:0.5px solid var(--rule);border-left:3px solid var(--blue);
+  padding:.875rem 1.125rem;border-radius:0 3px 3px 0;margin-top:1.25rem;
+}
+.scope-label{font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--blue);margin-bottom:5px;}
+
+.formula-block{
+  background:#1c1c1c;color:#f0ede8;border-radius:4px;
+  padding:1.25rem 1.5rem;margin:1.25rem 0;font-family:'Courier New',monospace;font-size:13px;line-height:1.9;
+}
+.fb-acc{color:#f0a070;}
+.fb-blue{color:#7ab4f5;}
+.fb-dim{color:#888;font-size:11px;}
+
+.def-block{padding:10px 0;border-bottom:0.5px solid var(--rule);}
+.def-block:last-child{border-bottom:none;}
+.def-term{font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--blue);margin-bottom:4px;}
+.def-body{font-size:13px;line-height:1.65;color:var(--ink2);}
+
+.example-box{
+  background:#f0f5ff;border-radius:3px;padding:.875rem 1rem;margin:1.25rem 0;
+}
+.ex-label{font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--blue);margin-bottom:6px;}
+.ex-body{font-size:13px;line-height:1.7;color:var(--ink2);}
+.ex-body strong{color:var(--blue);}
+
+.insight-pull{
+  font-family:var(--serif);font-size:17px;font-style:italic;
+  color:var(--ink);line-height:1.5;
+  padding:1.25rem 1.5rem;border-top:1px solid var(--rule);border-bottom:1px solid var(--rule);
+  margin:1.5rem 0;
+}
+
+.funnel-wrap{margin:1.25rem 0;}
+.f-stage{display:flex;gap:0;align-items:stretch;margin-bottom:0;}
+.f-spine{width:40px;display:flex;flex-direction:column;align-items:center;flex-shrink:0;}
+.f-node{
+  width:12px;height:12px;border-radius:50%;flex-shrink:0;margin-top:5px;z-index:1;
+}
+.f-connector{width:1px;flex:1;margin-top:1px;}
+.f-content{flex:1;padding:0 0 1.25rem 4px;}
+.f-card{border-radius:3px;padding:.875rem 1rem;border:0.5px solid var(--rule);}
+.f-stage-name{font-size:13px;font-weight:600;color:var(--ink);margin-bottom:4px;}
+.f-stage-body{font-size:12px;line-height:1.6;color:var(--ink3);}
+.f-tag{
+  display:inline-block;font-size:10px;font-weight:600;padding:2px 7px;
+  border-radius:2px;margin-top:6px;margin-right:4px;letter-spacing:.04em;
+}
+.t-green{background:#e5f4ec;color:var(--green);}
+.t-red{background:#fdecea;color:var(--red);}
+.t-amber{background:#fdf4e3;color:var(--amber);}
+.t-blue{background:#e8f0fc;color:var(--blue);}
+.t-gray{background:var(--bg2);color:var(--ink3);border:0.5px solid var(--rule);}
+
+.drop-row{
+  display:flex;align-items:center;gap:8px;
+  margin-left:40px;margin-bottom:.75rem;font-size:12px;color:var(--ink3);
+}
+.drop-badge{font-size:10px;font-weight:600;padding:2px 7px;border-radius:2px;}
+
+.h-card{border:0.5px solid var(--rule);border-radius:3px;padding:1.25rem;margin-bottom:.875rem;}
+.h-top{display:flex;align-items:center;gap:10px;margin-bottom:.75rem;}
+.h-badge{
+  font-size:10px;font-weight:600;letter-spacing:.08em;background:var(--ink);
+  color:#fff;padding:3px 8px;border-radius:2px;flex-shrink:0;
+}
+.h-title{font-size:14px;font-weight:600;color:var(--ink);}
+.h-body{font-size:13px;line-height:1.7;color:var(--ink2);margin-bottom:.875rem;}
+.h-grid{display:grid;grid-template-columns:1fr 1fr;gap:.75rem;}
+.h-box{background:var(--bg2);border-radius:3px;padding:.75rem .875rem;}
+.h-box-label{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.08em;color:var(--ink3);margin-bottom:4px;}
+.h-box-body{font-size:12px;line-height:1.55;color:var(--ink2);}
+.h-proof{
+  margin-top:.75rem;background:#f0f5ff;border-radius:3px;
+  padding:.7rem .875rem;font-size:12px;color:var(--blue);line-height:1.5;
+}
+.h-proof strong{font-weight:600;}
+
+.callout-blue{
+  border:0.5px solid var(--rule);border-left:3px solid var(--blue);
+  padding:.875rem 1.125rem;border-radius:0 3px 3px 0;margin-top:1.25rem;
+}
+.cl-label{font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--blue);margin-bottom:5px;}
+
+.company-row{display:flex;flex-wrap:wrap;gap:6px;margin:.75rem 0;}
+.co-badge{
+  font-size:11px;font-weight:500;padding:4px 10px;
+  border-radius:2px;border:0.5px solid var(--rule);color:var(--ink2);background:var(--bg2);
+}
+</style>
+
+<div class="doc">
+
+<!-- ======= SECTION 01 ======= -->
+<div class="section-strip">
+  <span class="s-tag">01</span>
+  <span class="s-title">Problem Statement</span>
+  <span class="s-rule"></span>
+</div>
+
+<div class="card">
+  <div class="big-title">The Money Nobody Is<br>Counting <em>Correctly</em></div>
+  <div class="eyebrow">Problem Brief · Last-Mile Delivery Industry · Growth Analytics Project</div>
+
+  <div class="stamp-row">
+    <span class="stamp">Swiggy</span><span class="stamp">Zomato</span><span class="stamp">Blinkit</span>
+    <span class="stamp">Zepto</span><span class="stamp">Amazon</span><span class="stamp">Flipkart</span>
+    <span class="stamp">Pronto</span><span class="stamp">+ any last-mile delivery app</span>
+  </div>
+
+  <div class="section-h">Let's start with the obvious</div>
+  <p>Every delivery app in India — Swiggy, Zomato, Blinkit, Zepto, Amazon, Flipkart, Pronto, you name it — needs riders. Without riders online and ready, no order gets fulfilled. So these companies spend a massive amount of money every month paying riders bonuses to show up, stay online, and complete more deliveries.</p>
+  <p>This bonus spend is one of the biggest cost lines on their P&L. We're talking hundreds of crores every quarter for the large players. And for a company like Amazon or Flipkart, where last-mile delivery costs can make or break the unit economics of an order, every rupee of that incentive budget matters.</p>
+
+  <div class="highlight-box">
+    <div class="hl-label">What the industry spends on rider incentives — ballpark</div>
+    <div class="hl-big">₹200 – ₹500 Cr per quarter</div>
+    <div class="hl-note">Per large platform (Swiggy / Zomato / Amazon India analog). Sources: DRHP filings, analyst estimates. Smaller platforms like Zepto / Blinkit: ₹40–100 Cr/quarter.</div>
+  </div>
+
+  <div class="section-h">So what's the actual problem?</div>
+  <p>Here's the thing — all of these companies track how many deliveries happen while bonuses are running. They look at that number, feel good, and call it a win. But <strong>they're measuring the wrong thing.</strong></p>
+  <p>Imagine you pay 100 riders a ₹20 bonus per delivery today. They collectively complete 1,000 deliveries. Looks great, right? But here's the question nobody is asking: <strong>how many of those 1,000 deliveries would have happened even without the bonus?</strong></p>
+  <p>If the answer is 900 — then your bonus didn't buy you 1,000 deliveries. It bought you 100. You paid for 1,000 but got 100. That's a 10× overstatement of what your money actually did.</p>
+  <p>This is the core problem across the entire last-mile delivery industry right now. The incentive budgets are large, the measurement is broken, and nobody has properly calculated what it actually <em>costs</em> to generate one additional delivery through incentives.</p>
+
+  <div class="section-h">Three things that are going wrong right now</div>
+
+  <div class="problem-block">
+    <div class="pb-num">Problem 01</div>
+    <div class="pb-title">Paying riders who'd show up anyway</div>
+    <div class="pb-body">Every delivery platform has a set of riders who are online every single peak hour no matter what. They're there rain or shine, bonus or no bonus — it's their full-time job and they're maximising earnings regardless. Paying these riders an extra ₹20/order doesn't generate a single extra delivery. It just adds ₹20 to the cost of every delivery they were going to make anyway. Across thousands of such riders, that's crores wasted every month.</div>
+  </div>
+
+  <div class="problem-block">
+    <div class="pb-num">Problem 02</div>
+    <div class="pb-title">Same bonus for everyone, regardless of who it actually moves</div>
+    <div class="pb-body">A rider who joined 3 weeks ago and a rider who's been delivering for 3 years get the same incentive structure. But they respond completely differently. The newer rider might work 2 extra hours because of a streak bonus. The veteran barely notices — they're already at full capacity. Most platforms haven't segmented incentive design by who actually responds to it. They're using a sledgehammer where they need a scalpel.</div>
+  </div>
+
+  <div class="problem-block">
+    <div class="pb-num">Problem 03</div>
+    <div class="pb-title">The bonus structure was designed in a different era</div>
+    <div class="pb-body">Flat per-order bonuses were introduced when these apps were trying to build their rider base from scratch. The goal back then was just to get riders on the platform. That goal has been achieved. The rider supply base is large and established now. But the same bonus structures that made sense in 2018–2019 are still running in 2025 — not because they're efficient, but because no one has built the analytical framework to replace them with something smarter.</div>
+  </div>
+
+  <div class="section-h">What this project does about it</div>
+  <p>This project builds a framework to calculate <strong>CPID — Cost Per Incremental Delivery</strong>. That's a simple idea: for every ₹1 you spend on rider bonuses, how many additional deliveries do you actually get? Not total deliveries. Additional ones, above what would have happened anyway.</p>
+  <p>We'll measure this across three different bonus types, across riders at different stages of their journey, and across different city sizes. At the end, we'll have a concrete answer to the question every Head of Operations and CFO at a delivery company should be asking but currently can't: <em>which bonuses are actually worth the money, and which ones are we just throwing into the void?</em></p>
+
+  <div class="two-up">
+    <div class="mini-stat"><div class="mv">~8–10%</div><div class="ml">Potential CPID improvement from optimising incentive mix — translates to ₹20–50 Cr savings per quarter for a mid-large platform</div></div>
+    <div class="mini-stat"><div class="mv">40–60%</div><div class="ml">Estimated share of incentive spend going to "always-on" riders who would deliver regardless — this is the waste we're going to find and quantify</div></div>
+  </div>
+
+  <div class="scope-note">
+    <div class="scope-label">Who this applies to</div>
+    <p style="font-size:13px;margin:0">This analysis is built for any platform where riders are paid per delivery and bonuses are used to manage supply. That's Swiggy, Zomato, Blinkit, Zepto, Amazon, Flipkart Quick, Pronto, and any regional player following the same model. The framework is identical — only the scale of numbers changes.</p>
+  </div>
+</div>
+
+<!-- ======= SECTION 02 ======= -->
+<div class="section-strip">
+  <span class="s-tag">02</span>
+  <span class="s-title">North Star Metric — What CPID Actually Means</span>
+  <span class="s-rule"></span>
+</div>
+
+<div class="card">
+  <div class="big-title">Why the Formula Matters<br><em>Less Than the Thinking Behind It</em></div>
+  <div class="eyebrow">Metric Design · North Star + Supporting Numbers</div>
+
+  <div class="section-h">The formula itself is simple</div>
+
+  <div class="formula-block">
+    <span class="fb-acc">CPID</span>  =  Total Bonus Paid  ÷  <span class="fb-blue">Incremental Deliveries</span><br>
+    <span class="fb-dim">-- NOT: Total Bonus Paid ÷ Total Deliveries Completed (this is the mistake)</span><br><br>
+    <span class="fb-blue">Incremental Deliveries</span>  =  Deliveries with bonus  −  Deliveries without bonus<br>
+    <span class="fb-dim">-- "Without bonus" = what this rider normally does in a no-bonus week</span>
+  </div>
+
+  <div class="section-h">Let's make this real with an example</div>
+
+  <div class="example-box">
+    <div class="ex-label">Meet Ramesh — a Zomato rider in Pune</div>
+    <div class="ex-body">
+      On a normal week with no bonus, Ramesh completes about <strong>18 deliveries a day</strong>. That's his baseline — it's just what he does.<br><br>
+      This week, Zomato runs a streak bonus: complete 22 deliveries today and earn ₹80 extra. Ramesh pushes himself and finishes <strong>22 deliveries</strong>.<br><br>
+      The old way of calculating ROI: ₹80 paid ÷ 22 deliveries = ₹3.64 per delivery. Looks efficient.<br><br>
+      <strong>The correct way:</strong> Ramesh was going to do 18 anyway. The bonus bought 4 extra deliveries. ₹80 ÷ 4 = <strong>₹20 per incremental delivery (CPID).</strong><br><br>
+      That's a 5× difference. And that gap is where hundreds of crores disappear every year across the industry.
+    </div>
+  </div>
+
+  <div class="insight-pull">"The question isn't how many deliveries happened while the bonus was running. The question is how many happened <em>because</em> the bonus was running."</div>
+
+  <div class="section-h">Four terms you need to know</div>
+
+  <div class="def-block">
+    <div class="def-term">CPID (Cost Per Incremental Delivery)</div>
+    <div class="def-body">The true cost of each extra delivery your bonus actually generated. Lower means more efficient. A CPID of ₹12 is better than ₹25. This is the number we're optimising. Every analysis, every chart, every recommendation in this project comes back to this one number.</div>
+  </div>
+
+  <div class="def-block">
+    <div class="def-term">Baseline</div>
+    <div class="def-body">What a rider normally delivers in a week when no bonus is active. We calculate this per rider — not a city average, not a platform average. Rider-specific. Because Ramesh's normal is 18/day, and his colleague Priya's normal might be 8/day. You can't mix them up.</div>
+  </div>
+
+  <div class="def-block">
+    <div class="def-term">Always-on rider</div>
+    <div class="def-body">A rider whose delivery numbers don't really change whether a bonus is running or not. They're maxing out regardless. Paying them a bonus is almost pure waste — you're not buying extra deliveries, you're just paying extra for deliveries you were getting anyway. Identifying these riders and adjusting their incentives is one of the biggest immediate savings opportunities.</div>
+  </div>
+
+  <div class="def-block">
+    <div class="def-term">Incentive-elastic rider</div>
+    <div class="def-body">A rider who genuinely responds to bonuses — they come online more, accept more orders, push harder to hit a streak. These are the only riders where your incentive money is doing real work. The goal is to find them, understand them, and concentrate the budget on them.</div>
+  </div>
+
+  <div class="section-h">The other numbers we track alongside CPID</div>
+  <p>CPID can't live in isolation. A bonus that improves CPID but tanks the delivery coverage rate (too few orders getting fulfilled) is a bad trade. So we track these alongside it:</p>
+
+  <div class="def-block">
+    <div class="def-term">Delivery coverage rate</div>
+    <div class="def-body">Out of every order placed on the platform, what percentage actually gets a rider? If coverage drops, customers start leaving. So even if CPID improves, if coverage falls below a healthy threshold, the incentive redesign failed. The two always go together.</div>
+  </div>
+
+  <div class="def-block">
+    <div class="def-term">Online hours elasticity</div>
+    <div class="def-body">When a bonus goes live, do more riders come online? By how much? This is the earliest signal — before we even see delivery numbers, we can see whether the bonus is moving supply at all. If online hours don't move, CPID won't improve either.</div>
+  </div>
+
+  <div class="def-block">
+    <div class="def-term">Cliff churn</div>
+    <div class="def-body">What happens the week after a bonus ends? Do riders drop their hours sharply because they got used to the inflated earnings? If yes, the bonus created dependency, not habit — and that's a long-term supply problem. We measure this as the "incentive cliff effect."</div>
+  </div>
+
+  <div class="callout-blue">
+    <div class="cl-label">Why this is the thing that sets this project apart</div>
+    <p style="font-size:13px;margin:0">Every delivery platform already tracks "deliveries per rupee of incentive." But they're using total deliveries in the denominator. The moment you switch to incremental deliveries — which is what this project does — the whole picture changes. The numbers look worse, but they're finally honest. And honest numbers are the only ones you can actually act on.</p>
+  </div>
+</div>
+
+<!-- ======= SECTION 03 ======= -->
+<div class="section-strip">
+  <span class="s-tag">03</span>
+  <span class="s-title">Supply-Side Funnel</span>
+  <span class="s-rule"></span>
+</div>
+
+<div class="card">
+  <div class="big-title">What a Rider Actually<br>Goes Through <em>Before</em> Delivering</div>
+  <div class="eyebrow">Funnel Map · Drop-Off Points · Where Bonuses Do (and Don't) Work</div>
+
+  <p>To understand where incentives create value versus where they get wasted, you need to see the full journey a rider takes — from logging into the app to completing a delivery. Each stage is a decision point, and each decision point is where a different type of bonus acts. Here's the real map.</p>
+
+  <div class="company-row">
+    <span class="co-badge">Same funnel for Swiggy</span>
+    <span class="co-badge">Zomato</span>
+    <span class="co-badge">Blinkit</span>
+    <span class="co-badge">Zepto</span>
+    <span class="co-badge">Amazon</span>
+    <span class="co-badge">Flipkart</span>
+    <span class="co-badge">Pronto</span>
+  </div>
+
+  <div class="funnel-wrap">
+
+    <div class="f-stage">
+      <div class="f-spine">
+        <div class="f-node" style="background:#1a4fad"></div>
+        <div class="f-connector" style="background:var(--rule)"></div>
+      </div>
+      <div class="f-content">
+        <div class="f-card" style="border-color:#b5d4f4">
+          <div class="f-stage-name">Stage 0 — Rider Signs Up</div>
+          <div class="f-stage-body">The rider downloads the app, submits documents, clears verification, and receives their onboarding kit. They're in the system but haven't started delivering yet. This is a one-time acquisition cost — joining bonuses live here. Not relevant to CPID.</div>
+          <span class="f-tag t-gray">Joining bonus — one-time, not part of CPID</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="drop-row">
+      <span>↓</span>
+      <span class="drop-badge" style="background:#fdecea;color:var(--red)">~30% never start their first shift</span>
+      <span>ghost after signing up</span>
+    </div>
+
+    <div class="f-stage">
+      <div class="f-spine">
+        <div class="f-node" style="background:#1a4fad"></div>
+        <div class="f-connector" style="background:var(--rule)"></div>
+      </div>
+      <div class="f-content">
+        <div class="f-card" style="border-color:#b5d4f4">
+          <div class="f-stage-name">Stage 1 — Goes Online</div>
+          <div class="f-stage-body">Rider opens the app and marks themselves available. This is the first real decision bonuses influence. Before going online, they're mentally asking: "is today worth it? Is the earning potential good enough for the time I'm putting in?" Surge bonuses and daily login bonuses act exactly here — they change that mental calculation.</div>
+          <span class="f-tag t-green">Bonus lever: surge top-up, login bonus, peak-hour extra</span>
+          <span class="f-tag t-blue">This is where online hours elasticity gets measured</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="drop-row">
+      <span>↓</span>
+      <span class="drop-badge" style="background:#fdf4e3;color:var(--amber)">~15% go online but sit idle — don't accept the first order within 20 min</span>
+    </div>
+
+    <div class="f-stage">
+      <div class="f-spine">
+        <div class="f-node" style="background:#c0392b"></div>
+        <div class="f-connector" style="background:var(--rule)"></div>
+      </div>
+      <div class="f-content">
+        <div class="f-card" style="border-color:#f5a89a">
+          <div class="f-stage-name">Stage 2 — Accepts an Order</div>
+          <div class="f-stage-body">The platform pings the rider with a dispatch. The rider decides: accept or reject? High rejection rates usually mean the order is too far, the earning feels too low, or the rider is holding out for a better zone. Per-order flat bonuses and minimum earning guarantees act here — they make the "accept" decision feel more worthwhile for borderline orders.</div>
+          <span class="f-tag t-red">Biggest drop-off point — acceptance rate directly caps how many deliveries happen</span>
+          <span class="f-tag t-green">Bonus lever: per-order flat bonus, minimum earning guarantee</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="drop-row">
+      <span>↓</span>
+      <span class="drop-badge" style="background:#e5f4ec;color:var(--green)">~92–96% of accepted orders get completed</span>
+      <span>small mid-delivery cancellation rate remains</span>
+    </div>
+
+    <div class="f-stage">
+      <div class="f-spine">
+        <div class="f-node" style="background:#1a6b3c"></div>
+        <div class="f-connector" style="background:var(--rule)"></div>
+      </div>
+      <div class="f-content">
+        <div class="f-card" style="border-color:#7fd4a0">
+          <div class="f-stage-name">Stage 3 — Completes the Delivery</div>
+          <div class="f-stage-body">The rider delivers the order and marks it done. This is the event every platform is trying to maximise — and it's the unit CPID measures. Streak bonuses are the dominant incentive type here: "complete 10 deliveries today, earn ₹100 extra" pushes a rider to keep going past the point they would have stopped. That extra push is where incrementality lives.</div>
+          <span class="f-tag t-green">Bonus lever: streak bonus — the most incrementality-generating type</span>
+          <span class="f-tag t-blue">This is the event CPID measures</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="drop-row">
+      <span>↓</span>
+      <span class="drop-badge" style="background:#e8f0fc;color:var(--blue)">100% of completions feed into payout calculation</span>
+    </div>
+
+    <div class="f-stage">
+      <div class="f-spine">
+        <div class="f-node" style="background:#b06a00"></div>
+        <div class="f-connector" style="background:transparent"></div>
+      </div>
+      <div class="f-content">
+        <div class="f-card" style="border-color:#f0c060">
+          <div class="f-stage-name">Stage 4 — Payout + What Happens Next Week</div>
+          <div class="f-stage-body">The platform credits the bonus. The delivery is done. But this is where a hidden risk emerges: if the rider got used to earning ₹X per week with the bonus, and next week it drops back to ₹X−bonus, they might reduce their hours. This is the "incentive cliff" — the week-after drop that shows up when incentives create dependency rather than habit. We measure this specifically.</div>
+          <span class="f-tag t-amber">Watch for: cliff churn — do riders go quiet the week after a bonus ends?</span>
+          <span class="f-tag t-gray">Metric: week-over-week online hour change post-bonus</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="section-h">The simple version of what this funnel tells us</div>
+
+  <div class="problem-block">
+    <div class="pb-num">Where bonuses work</div>
+    <div class="pb-body">Streak bonuses at Stage 3 for riders who are close to a threshold but haven't hit it. Surge top-ups at Stage 1 for riders deciding whether to come online on a slow afternoon. These create real, countable incremental deliveries.</div>
+  </div>
+
+  <div class="problem-block">
+    <div class="pb-num">Where bonuses leak money</div>
+    <div class="pb-body">Flat per-order bonuses paid at Stage 3 to always-on riders. These riders were going to complete those deliveries regardless. The bonus doesn't change their behaviour — it just adds to the cost of deliveries you were already getting. This is the biggest single waste category across the industry.</div>
+  </div>
+
+  <div class="problem-block">
+    <div class="pb-num">Where it's complicated</div>
+    <div class="pb-body">Bonuses at Stage 2 (order acceptance) are genuinely tricky. Did the bonus cause the rider to accept an order they'd have rejected? Or would they have accepted it anyway? Without a proper experiment, this is hard to separate. We flag this as a grey zone and design the A/B test specifically to address it.</div>
+  </div>
+</div>
+
+<!-- ======= SECTION 04 ======= -->
+<div class="section-strip">
+  <span class="s-tag">04</span>
+  <span class="s-title">Three Hypotheses</span>
+  <span class="s-rule"></span>
+</div>
+
+<div class="card">
+  <div class="big-title">Three Things We Believe<br><em>That the Data Will Either Prove or Kill</em></div>
+  <div class="eyebrow">Hypotheses · What Proves / Disproves Each · How We Test Them</div>
+
+  <p>A hypothesis that can't be wrong isn't a hypothesis. Each of the three below is written to have a specific, concrete condition where the data says "you were wrong." That's what makes them real. If we go in assuming we'll find what we expect to find, we're writing a story — not doing analysis.</p>
+
+  <div class="h-card">
+    <div class="h-top">
+      <span class="h-badge">H1</span>
+      <span class="h-title">Streak bonuses are more efficient than flat per-order bonuses</span>
+    </div>
+    <div class="h-body">
+      When a platform like Swiggy says "complete 10 deliveries today, get ₹100 extra," it's using loss aversion against itself. A rider who's at 7 deliveries at 7pm is not going to stop. They're going to push to 10. That last push — those 3 extra deliveries — is pure incrementality. A flat ₹10/order bonus doesn't create that same psychological pull. You get the ₹10 whether you do 5 orders or 20. There's no momentum, no threshold, no "I'm this close" moment.
+      <br><br>
+      We believe streak bonuses generate more incremental deliveries per rupee spent than flat bonuses. Not because we feel good about it — because the psychology of completion is well-documented and the platform data should reflect it.
+    </div>
+    <div class="h-grid">
+      <div class="h-box">
+        <div class="h-box-label">If we're right</div>
+        <div class="h-box-body">CPID for streak bonuses is at least 20% lower than for flat bonuses. Streak completion rate (riders who hit the threshold) is 65% or above.</div>
+      </div>
+      <div class="h-box">
+        <div class="h-box-label">If we're wrong</div>
+        <div class="h-box-body">CPID for both types is statistically similar. Or streak completion rate is so low (below 50%) that the psychology argument breaks down entirely.</div>
+      </div>
+    </div>
+    <div class="h-proof"><strong>How we test it:</strong> Difference-in-Differences analysis comparing delivery rates in streak-bonus weeks vs flat-bonus weeks vs no-bonus weeks. Bootstrap confidence intervals to confirm the gap is real and not noise.</div>
+  </div>
+
+  <div class="h-card">
+    <div class="h-top">
+      <span class="h-badge">H2</span>
+      <span class="h-title">Riders with 2–6 months on the platform respond best to bonuses</span>
+    </div>
+    <div class="h-body">
+      Think about it from the rider's side. A rider in their first month is still figuring things out — new zones, new app behaviour, inconsistent hours. Their delivery numbers are all over the place and bonuses might not produce a reliable response. A rider who's been on the platform for 3 years is a professional. They're already delivering at full capacity most days — a bonus barely moves the needle because they can't really do more.
+      <br><br>
+      The 2–6 month rider is in a different spot. They know the platform well enough to respond predictably to incentives. They're not yet at ceiling capacity. And they still have enough financial motivation to push harder when a bonus is live. This is the sweet spot — and platforms are currently ignoring it by treating all riders identically.
+    </div>
+    <div class="h-grid">
+      <div class="h-box">
+        <div class="h-box-label">If we're right</div>
+        <div class="h-box-body">CPID for the 2–6 month band is clearly lower than for 0–2 months and 12+ months. The data shows a U-shape when you plot CPID against tenure.</div>
+      </div>
+      <div class="h-box">
+        <div class="h-box-label">If we're wrong</div>
+        <div class="h-box-body">CPID shows no clear pattern across tenure bands — it's roughly flat, or the pattern is not statistically meaningful. The sweet spot doesn't exist.</div>
+      </div>
+    </div>
+    <div class="h-proof"><strong>How we test it:</strong> Split riders into four tenure bands (0–2mo, 2–6mo, 6–12mo, 12+mo). Calculate CPID per band. Run an ANOVA test to confirm the differences are statistically real and not random variation.</div>
+  </div>
+
+  <div class="h-card">
+    <div class="h-top">
+      <span class="h-badge">H3</span>
+      <span class="h-title">Tier-2 cities give you twice the efficiency for the same bonus rupee</span>
+    </div>
+    <div class="h-body">
+      In a city like Mumbai or Bengaluru, there are riders everywhere. Supply is dense. The market is almost saturated at peak hours — riders are already delivering as fast as they can. Throwing more bonus money at a saturated market gets you very little in return.
+      <br><br>
+      In a city like Jaipur, Lucknow, or Surat, the rider base is smaller and the market is less saturated. The same ₹100 bonus that barely moves a Mumbai rider might bring three extra riders online in Jaipur. The supply response is bigger because there's more room for it to be bigger. This is a massive opportunity that most platforms are missing because they apply uniform incentive rates nationally.
+    </div>
+    <div class="h-grid">
+      <div class="h-box">
+        <div class="h-box-label">If we're right</div>
+        <div class="h-box-body">CPID in Tier-2 cities is at least 2× lower than in Tier-1 metros. Same bonus, twice the incremental deliveries. The data shows a clear city-tier effect.</div>
+      </div>
+      <div class="h-box">
+        <div class="h-box-label">If we're wrong</div>
+        <div class="h-box-body">The CPID difference between city tiers is less than 1.5× or statistically insignificant after accounting for baseline delivery volume differences. The geography doesn't matter as much as we thought.</div>
+      </div>
+    </div>
+    <div class="h-proof"><strong>How we test it:</strong> Compare CPID across city tiers (Tier-1 vs Tier-2 vs Tier-3) using a two-sample t-test. Control for baseline delivery volume per rider to make sure we're seeing a real city effect, not just a volume effect.</div>
+  </div>
+
+  <div class="callout-blue">
+    <div class="cl-label">The real point of writing hypotheses this way</div>
+    <p style="font-size:13px;margin:0">Most portfolio projects are reverse-engineered — someone runs the analysis, finds something interesting, then writes a hypothesis that matches what they found. That's not how real analysis works. Writing specific, falsifiable hypotheses before touching the data is what tells an interviewer you actually understand what you're doing. It also makes the "I was wrong about H3" moment in your presentation a feature, not a bug — it shows intellectual honesty, which is rarer than correct predictions.</p>
+  </div>
+</div>
+
+</div>
