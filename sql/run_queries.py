@@ -356,5 +356,6 @@ def run_sql_analysis(data_dir):
 
 if __name__ == "__main__":
     script_dir = os.path.dirname(os.path.abspath(__file__))
-    data_dir = os.path.join(script_dir, "data")
+    # Go up one level from sql/ to find data/
+    data_dir = os.path.join(os.path.dirname(script_dir), "data")
     run_sql_analysis(data_dir)
